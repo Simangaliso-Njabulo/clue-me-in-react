@@ -6,6 +6,8 @@ import { SoundProvider } from './context/SoundContext';
 import { HomePage } from './pages/HomePage';
 import { PlayPage } from './pages/PlayPage';
 import { ResultsPage } from './pages/ResultsPage';
+import { StatsPage } from './pages/StatsPage';
+import { AchievementsPage } from './pages/AchievementsPage';
 import { SplashScreen } from './components/SplashScreen';
 import { ParticleBackground } from './components/ui/ParticleBackground';
 
@@ -18,6 +20,8 @@ function AnimatedRoutes() {
         <Route path="/" element={<HomePage />} />
         <Route path="/play" element={<PlayPage />} />
         <Route path="/results" element={<ResultsPage />} />
+        <Route path="/stats" element={<StatsPage />} />
+        <Route path="/achievements" element={<AchievementsPage />} />
       </Routes>
     </AnimatePresence>
   );

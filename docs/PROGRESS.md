@@ -11,8 +11,8 @@
 
 ## Current Status
 
-**Active Milestone:** 5 - Progress & Achievements
-**Overall Progress:** 4/6 Milestones Complete
+**Active Milestone:** 6 - Polish & Optimization
+**Overall Progress:** 5/6 Milestones Complete
 
 ---
 
@@ -167,34 +167,40 @@
 
 ## Milestone 5: Progress & Achievements
 
-**Status:** Not Started
+**Status:** Complete
 **Goal:** Persistent stats and rewards
 
 | #    | Task                             | Status | Verified |
 | ---- | -------------------------------- | ------ | -------- |
-| 5.1  | Create `storageService.ts`       | [ ]    | [ ]      |
-| 5.2  | Define localStorage schema       | [ ]    | [ ]      |
-| 5.3  | Create `useLocalStorage` hook    | [ ]    | [ ]      |
-| 5.4  | Track game statistics            | [ ]    | [ ]      |
-| 5.5  | Track high scores                | [ ]    | [ ]      |
-| 5.6  | Create StatsPage                 | [ ]    | [ ]      |
-| 5.7  | Add stats route                  | [ ]    | [ ]      |
-| 5.8  | Define achievements              | [ ]    | [ ]      |
-| 5.9  | Create `useAchievements` hook    | [ ]    | [ ]      |
-| 5.10 | Create AchievementToast          | [ ]    | [ ]      |
-| 5.11 | Create AchievementsPage          | [ ]    | [ ]      |
-| 5.12 | Trigger achievements in gameplay | [ ]    | [ ]      |
-| 5.13 | Add navigation                   | [ ]    | [ ]      |
+| 5.1  | Create `storageService.ts`       | [x]    | [x]      |
+| 5.2  | Define localStorage schema       | [x]    | [x]      |
+| 5.3  | Create `useLocalStorage` hook    | [x]    | [x]      |
+| 5.4  | Track game statistics            | [x]    | [x]      |
+| 5.5  | Track high scores                | [x]    | [x]      |
+| 5.6  | Create StatsPage                 | [x]    | [x]      |
+| 5.7  | Add stats route                  | [x]    | [x]      |
+| 5.8  | Define achievements              | [x]    | [x]      |
+| 5.9  | Create `useAchievements` hook    | [x]    | [x]      |
+| 5.10 | Create AchievementToast          | [x]    | [x]      |
+| 5.11 | Create AchievementsPage          | [x]    | [x]      |
+| 5.12 | Trigger achievements in gameplay | [x]    | [x]      |
+| 5.13 | Add navigation                   | [x]    | [x]      |
 
 **Verification:**
 
-- [ ] Stats persist
-- [ ] High scores display
-- [ ] Achievements unlock correctly
-- [ ] Toast appears on unlock
-- [ ] Pages accessible
+- [x] Stats persist
+- [x] High scores display
+- [x] Achievements unlock correctly
+- [x] Toast appears on unlock
+- [x] Pages accessible
 
 **Notes:**
+
+- 2026-02-06: Created storageService with full localStorage schema
+- 2026-02-06: Created useLocalStorage hook for generic storage access
+- 2026-02-06: Created useAchievements hook with 11 achievements
+- 2026-02-06: Stats/Achievements pages with navigation from HomePage
+- 2026-02-06: Achievement toast displays on ResultsPage when unlocked
 
 ---
 
@@ -239,6 +245,24 @@
 ## Changelog
 
 ### [Unreleased]
+
+### 2026-02-06 - Milestone 5: Progress & Achievements Complete
+
+#### Added
+
+- `storageService.ts` with localStorage schema for stats, high scores, and achievements
+- `useLocalStorage` hook for generic typed localStorage access
+- `useAchievements` hook with 11 achievements and auto-detection
+- `StatsPage` showing overall stats and high scores by category
+- `AchievementsPage` with unlocked/locked achievement display
+- Achievement toast notification on ResultsPage
+- Stats button in HomePage header for quick access
+- Play time tracking and formatting
+
+#### Changed
+
+- ResultsPage now records game results to localStorage
+- App.tsx includes routes for /stats and /achievements
 
 ### 2026-02-05 - Milestone 4: Game Modes Complete
 
@@ -366,10 +390,10 @@
 
 ### Milestone 5 Review
 
-- **Completed:**
-- **What went well:**
-- **Challenges:**
-- **Learnings:**
+- **Completed:** 2026-02-06
+- **What went well:** Storage service with full schema, 11 achievements with auto-detection, toast notifications on unlock
+- **Challenges:** None significant - straightforward localStorage implementation
+- **Learnings:** Separating storage logic into a service keeps components clean; useRef for one-time effects prevents duplicate stat recording
 
 ### Milestone 6 Review
 

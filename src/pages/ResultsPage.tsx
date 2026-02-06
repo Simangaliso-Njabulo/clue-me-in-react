@@ -1,20 +1,41 @@
-import { motion } from 'framer-motion';
-import { useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import confetti from 'canvas-confetti';
 import { useGame } from '../context/GameContext';
 import { GlassCard } from '../components/ui/GlassCard';
+import { useAchievements } from '../hooks/useAchievements';
 
 export function ResultsPage() {
   const navigate = useNavigate();
   const { state, resetGame, nextTeamTurn } = useGame();
-  const { correctWords, skippedWords, maxStreak, gameMode, teams, currentTeamIndex, roundNumber } = state;
+  const { correctWords, skippedWords, maxStreak, gameMode, teams, currentTeamIndex, roundNumber, selectedCategory, totalTime, remainingTime } = state;
+  const { pendingToasts, recordGameResult, dismissToast } = useAchievements();
+  const hasRecordedRef = useRef(false);
 
   const totalWords = correctWords.length + skippedWords.length;
   const percentage = totalWords > 0 ? Math.round((correctWords.length / totalWords) * 100) : 0;
 
   const isTeamMode = gameMode === 'team' && teams;
   const currentTeam = teams ? teams[currentTeamIndex] : null;
+
+  // Record game result for stats and achievements (only once)
+  useEffect(() => {
+    if (hasRecordedRef.current) return;
+    if (correctWords.length === 0 && skippedWords.length === 0) return;
+
+    hasRecordedRef.current = true;
+    const playTime = gameMode === 'endless' ? 0 : totalTime - remainingTime;
+
+    recordGameResult({
+      category: selectedCategory,
+      gameMode,
+      correctCount: correctWords.length,
+      skippedCount: skippedWords.length,
+      maxStreak,
+      playTime,
+    });
+  }, [correctWords, skippedWords, maxStreak, gameMode, selectedCategory, totalTime, remainingTime, recordGameResult]);
 
   // Redirect if no game was played
   useEffect(() => {
@@ -311,6 +332,36 @@ export function ResultsPage() {
           )}
         </motion.div>
       </main>
+
+      {/* Achievement Toast */}
+      <AnimatePresence>
+        {pendingToasts.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 50, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -20, scale: 0.9 }}
+            className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50"
+          >
+            <button
+              onClick={dismissToast}
+              className="flex items-center gap-3 px-5 py-3 bg-bg-secondary border border-neon-yellow/50 rounded-xl shadow-lg shadow-neon-yellow/20"
+            >
+              <span className="text-3xl">{pendingToasts[0].icon}</span>
+              <div className="text-left">
+                <div className="text-xs text-neon-yellow font-display font-bold uppercase tracking-wider">
+                  Achievement Unlocked!
+                </div>
+                <div className="text-sm font-bold text-text-primary">
+                  {pendingToasts[0].name}
+                </div>
+                <div className="text-xs text-text-muted">
+                  {pendingToasts[0].description}
+                </div>
+              </div>
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

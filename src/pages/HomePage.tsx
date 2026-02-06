@@ -34,11 +34,19 @@ export function HomePage() {
           <span className="text-neon-cyan">APP</span>
         </motion.h1>
 
-        {/* Sound Toggle */}
+        {/* Header Actions */}
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
+          className="flex items-center gap-2"
         >
+          <Link
+            to="/stats"
+            className="w-10 h-10 flex items-center justify-center rounded-lg bg-bg-secondary/50 hover:bg-bg-secondary transition-colors text-lg"
+            title="Stats & Achievements"
+          >
+            📊
+          </Link>
           <AudioSettings compact />
         </motion.div>
       </header>
