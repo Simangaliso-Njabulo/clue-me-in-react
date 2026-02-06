@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef, useCallback, useState } from 'react';
 
 interface Particle {
   x: number;
@@ -30,6 +30,20 @@ export function ParticleBackground({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const particlesRef = useRef<Particle[]>([]);
   const animationRef = useRef<number>(0);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+  // Check for reduced motion preference
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setPrefersReducedMotion(mediaQuery.matches);
+
+    const handleChange = (e: MediaQueryListEvent) => {
+      setPrefersReducedMotion(e.matches);
+    };
+
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, []);
 
   const createParticle = useCallback((width: number, height: number): Particle => {
     return {
@@ -64,6 +78,19 @@ export function ParticleBackground({
 
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
+
+    // If reduced motion, draw static particles once and stop
+    if (prefersReducedMotion) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particlesRef.current.forEach((particle) => {
+        ctx.beginPath();
+        ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+        ctx.fillStyle = particle.color.replace('0.6', String(particle.opacity * 0.5))
+          .replace('0.4', String(particle.opacity * 0.5));
+        ctx.fill();
+      });
+      return () => window.removeEventListener('resize', resizeCanvas);
+    }
 
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -102,7 +129,7 @@ export function ParticleBackground({
       window.removeEventListener('resize', resizeCanvas);
       cancelAnimationFrame(animationRef.current);
     };
-  }, [initParticles]);
+  }, [initParticles, prefersReducedMotion]);
 
   return (
     <canvas

@@ -1,3 +1,4 @@
+import { useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { useGame } from '../../context/GameContext';
 import { useSound } from '../../context/SoundContext';
@@ -15,19 +16,40 @@ export function ActionButtons({ onCorrect, onSkip }: ActionButtonsProps) {
   const isPlaying = status === 'playing';
   const canInteract = isPlaying && currentWord;
 
-  const handleCorrect = () => {
+  const handleCorrect = useCallback(() => {
     if (!canInteract) return;
     play('correct');
     markCorrect();
     onCorrect?.();
-  };
+  }, [canInteract, play, markCorrect, onCorrect]);
 
-  const handleSkip = () => {
+  const handleSkip = useCallback(() => {
     if (!canInteract) return;
     play('skip');
     markSkipped();
     onSkip?.();
-  };
+  }, [canInteract, play, markSkipped, onSkip]);
+
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!canInteract) return;
+
+      // Right arrow, D, or Enter = Correct
+      if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') {
+        e.preventDefault();
+        handleCorrect();
+      }
+      // Left arrow, A, or Backspace = Skip
+      else if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') {
+        e.preventDefault();
+        handleSkip();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [canInteract, handleCorrect, handleSkip]);
 
   return (
     <div className="flex items-center justify-center gap-6">

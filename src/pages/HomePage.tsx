@@ -21,9 +21,9 @@ export function HomePage() {
   const needsTeamSetup = state.gameMode === 'team' && !state.teams;
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen w-full flex flex-col">
       {/* Header */}
-      <header className="flex-shrink-0 px-6 py-4 flex items-center justify-between">
+      <header className="w-full flex-shrink-0 px-6 sm:px-10 pt-8 pb-4 flex items-center justify-between">
         <motion.h1
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -38,7 +38,7 @@ export function HomePage() {
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="flex items-center gap-2"
+          className="flex items-center gap-3"
         >
           <Link
             to="/stats"
@@ -52,13 +52,13 @@ export function HomePage() {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col items-center px-6 py-8 overflow-y-auto">
+      <main className="w-full flex-1 overflow-y-auto px-6 sm:px-8 py-8 flex flex-col items-center gap-10">
         {/* Hero Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="text-center mb-8 max-w-lg"
+          className="text-center w-full max-w-xl"
         >
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-display font-bold text-text-primary mb-4 leading-tight">
             Party Word Game
@@ -73,43 +73,17 @@ export function HomePage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15 }}
-          className="w-full max-w-md mb-8"
+          className="w-full max-w-lg"
         >
           <GameModeSelector />
         </motion.div>
-
-        {/* Team Setup Modal */}
-        <AnimatePresence>
-          {showTeamSetup && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 z-50 flex items-center justify-center bg-bg-primary/90 backdrop-blur-sm p-6"
-            >
-              <motion.div
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.9, opacity: 0 }}
-              >
-                <TeamSetup onComplete={() => setShowTeamSetup(false)} />
-                <button
-                  onClick={() => setShowTeamSetup(false)}
-                  className="mt-4 w-full text-center text-text-muted text-sm hover:text-text-secondary"
-                >
-                  Cancel
-                </button>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
 
         {/* Play Button */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.2 }}
-          className="mb-10"
+          className="text-center"
         >
           {needsTeamSetup ? (
             <motion.button
@@ -140,7 +114,7 @@ export function HomePage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
-          className="w-full max-w-md"
+          className="w-full max-w-lg"
         >
           <h3 className="text-xl font-display font-bold text-center mb-6 text-text-primary">
             How to Play
@@ -167,10 +141,36 @@ export function HomePage() {
             ))}
           </div>
         </motion.div>
+
+        {/* Team Setup Modal */}
+        <AnimatePresence>
+          {showTeamSetup && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-50 flex items-center justify-center bg-bg-primary/90 backdrop-blur-sm p-6"
+            >
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+              >
+                <TeamSetup onComplete={() => setShowTeamSetup(false)} />
+                <button
+                  onClick={() => setShowTeamSetup(false)}
+                  className="mt-4 w-full text-center text-text-muted text-sm hover:text-text-secondary"
+                >
+                  Cancel
+                </button>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </main>
 
       {/* Footer */}
-      <footer className="flex-shrink-0 px-6 py-4 text-center">
+      <footer className="w-full flex-shrink-0 px-6 sm:px-10 py-6 text-center">
         <p className="text-text-muted text-xs">
           Swipe right for correct, left for skip on mobile
         </p>

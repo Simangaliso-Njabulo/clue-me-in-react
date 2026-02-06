@@ -270,3 +270,33 @@ body {
   color: var(--color-neon-yellow);
   text-shadow: 0 0 10px var(--color-neon-yellow-glow);
 }
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .timer-warning,
+  .timer-danger {
+    animation: none !important;
+  }
+}
+
+/* Focus visible styles for keyboard navigation */
+:focus-visible {
+  outline: 2px solid var(--color-neon-cyan);
+  outline-offset: 2px;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--color-neon-cyan);
+  outline-offset: 2px;
+  box-shadow: 0 0 10px var(--color-neon-cyan-glow);
+}
