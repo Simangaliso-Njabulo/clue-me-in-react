@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <filter id="neon-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="100" height="100" rx="20" fill="#0a0a0f"/>
+
+  <!-- Z letter with neon yellow glow -->
+  <text
+    x="50"
+    y="72"
+    text-anchor="middle"
+    font-family="Arial Black, sans-serif"
+    font-size="70"
+    font-weight="900"
+    fill="#ffff00"
+    filter="url(#neon-glow)"
+    style="text-shadow: 0 0 10px #ffff00, 0 0 20px #ffff00, 0 0 30px #ffff00;"
+  >Z</text>
+</svg>

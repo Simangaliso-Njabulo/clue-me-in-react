@@ -1,7 +1,7 @@
 import { createContext, useContext, useReducer, useCallback, useEffect, useRef } from 'react';
 import type { ReactNode } from 'react';
-import type { GameState, GameAction } from '../types/game';
-import { TIMER_CONFIG } from '../types/game';
+import type { GameState, GameAction, GameMode, Difficulty, Team } from '../types/game';
+import { TIMER_CONFIG, GAME_MODES } from '../types/game';
 
 // Utility to shuffle array (Fisher-Yates)
 function shuffleArray<T>(array: T[]): T[] {
@@ -24,8 +24,16 @@ function getNextWord(words: string[]): { word: string; remaining: string[] } {
   return { word, remaining };
 }
 
+// Get default time for a game mode
+function getDefaultTimeForMode(mode: GameMode): number {
+  const modeConfig = GAME_MODES.find(m => m.id === mode);
+  return modeConfig?.defaultTime ?? TIMER_CONFIG.DEFAULT_TIME;
+}
+
 const initialState: GameState = {
   status: 'idle',
+  gameMode: 'classic',
+  difficulty: 'all',
   totalTime: TIMER_CONFIG.DEFAULT_TIME,
   remainingTime: TIMER_CONFIG.DEFAULT_TIME,
   categories: [],
@@ -36,6 +44,10 @@ const initialState: GameState = {
   skippedWords: [],
   currentStreak: 0,
   maxStreak: 0,
+  skipCount: 0,
+  teams: null,
+  currentTeamIndex: 0,
+  roundNumber: 1,
   soundEnabled: true,
 };
 
@@ -43,6 +55,46 @@ function gameReducer(state: GameState, action: GameAction): GameState {
   switch (action.type) {
     case 'SET_CATEGORIES':
       return { ...state, categories: action.payload };
+
+    case 'SET_GAME_MODE': {
+      const newTime = getDefaultTimeForMode(action.payload);
+      return {
+        ...state,
+        gameMode: action.payload,
+        totalTime: newTime,
+        remainingTime: newTime,
+        // Reset teams if not team mode
+        teams: action.payload === 'team' ? state.teams : null,
+        skipCount: 0,
+      };
+    }
+
+    case 'SET_DIFFICULTY':
+      return { ...state, difficulty: action.payload };
+
+    case 'SET_TEAMS': {
+      const teams: [Team, Team] = [
+        { name: action.payload.team1Name || 'Team 1', score: 0, color: 'pink' },
+        { name: action.payload.team2Name || 'Team 2', score: 0, color: 'cyan' },
+      ];
+      return { ...state, teams, currentTeamIndex: 0, roundNumber: 1 };
+    }
+
+    case 'NEXT_TEAM_TURN': {
+      if (!state.teams) return state;
+      const nextIndex = state.currentTeamIndex === 0 ? 1 : 0;
+      const newRound = nextIndex === 0 ? state.roundNumber + 1 : state.roundNumber;
+      return {
+        ...state,
+        currentTeamIndex: nextIndex,
+        roundNumber: newRound,
+        status: 'idle',
+        remainingTime: state.totalTime,
+        correctWords: [],
+        skippedWords: [],
+        currentStreak: 0,
+      };
+    }
 
     case 'SELECT_CATEGORY': {
       const shuffled = shuffleArray(action.payload.words);
@@ -58,6 +110,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         skippedWords: [],
         currentStreak: 0,
         maxStreak: 0,
+        skipCount: 0,
         remainingTime: state.totalTime,
       };
     }
@@ -69,13 +122,27 @@ function gameReducer(state: GameState, action: GameAction): GameState {
       return { ...state, status: 'playing' };
 
     case 'PAUSE_GAME':
+      // Can't pause endless mode
+      if (state.gameMode === 'endless') return state;
       return { ...state, status: 'paused' };
 
     case 'RESUME_GAME':
       return { ...state, status: 'playing' };
 
     case 'TICK': {
+      // Endless mode has no timer
+      if (state.gameMode === 'endless') return state;
+
       if (state.remainingTime <= 1) {
+        // Update team score if in team mode
+        if (state.teams && state.gameMode === 'team') {
+          const updatedTeams = [...state.teams] as [Team, Team];
+          updatedTeams[state.currentTeamIndex] = {
+            ...updatedTeams[state.currentTeamIndex],
+            score: updatedTeams[state.currentTeamIndex].score + state.correctWords.length,
+          };
+          return { ...state, remainingTime: 0, status: 'ended', teams: updatedTeams };
+        }
         return { ...state, remainingTime: 0, status: 'ended' };
       }
       return { ...state, remainingTime: state.remainingTime - 1 };
@@ -90,6 +157,15 @@ function gameReducer(state: GameState, action: GameAction): GameState {
 
       // Check if words exhausted
       if (!nextWord && state.availableWords.length === 0) {
+        // Update team score if in team mode
+        let updatedTeams = state.teams;
+        if (state.teams && state.gameMode === 'team') {
+          updatedTeams = [...state.teams] as [Team, Team];
+          updatedTeams[state.currentTeamIndex] = {
+            ...updatedTeams[state.currentTeamIndex],
+            score: updatedTeams[state.currentTeamIndex].score + state.correctWords.length + 1,
+          };
+        }
         return {
           ...state,
           correctWords: [...state.correctWords, currentWord],
@@ -98,6 +174,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
           currentWord: '',
           availableWords: [],
           status: 'ended',
+          teams: updatedTeams,
         };
       }
 
@@ -115,10 +192,31 @@ function gameReducer(state: GameState, action: GameAction): GameState {
       const currentWord = state.currentWord;
       if (!currentWord) return state;
 
+      const newSkipCount = state.skipCount + 1;
       const { word: nextWord, remaining } = getNextWord(state.availableWords);
+
+      // Endless mode: end after 3 skips
+      if (state.gameMode === 'endless' && newSkipCount >= 3) {
+        return {
+          ...state,
+          skippedWords: [...state.skippedWords, currentWord],
+          currentStreak: 0,
+          skipCount: newSkipCount,
+          status: 'ended',
+        };
+      }
 
       // Check if words exhausted
       if (!nextWord && state.availableWords.length === 0) {
+        // Update team score if in team mode
+        let updatedTeams = state.teams;
+        if (state.teams && state.gameMode === 'team') {
+          updatedTeams = [...state.teams] as [Team, Team];
+          updatedTeams[state.currentTeamIndex] = {
+            ...updatedTeams[state.currentTeamIndex],
+            score: updatedTeams[state.currentTeamIndex].score + state.correctWords.length,
+          };
+        }
         return {
           ...state,
           skippedWords: [...state.skippedWords, currentWord],
@@ -126,6 +224,8 @@ function gameReducer(state: GameState, action: GameAction): GameState {
           currentWord: '',
           availableWords: [],
           status: 'ended',
+          skipCount: newSkipCount,
+          teams: updatedTeams,
         };
       }
 
@@ -135,10 +235,15 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         currentWord: nextWord,
         availableWords: remaining,
         currentStreak: 0,
+        skipCount: newSkipCount,
       };
     }
 
     case 'INCREASE_TIME': {
+      // Can't adjust time in speed or endless mode
+      const modeConfig = GAME_MODES.find(m => m.id === state.gameMode);
+      if (!modeConfig?.allowTimeAdjust) return state;
+
       const newTime = Math.min(state.totalTime + TIMER_CONFIG.TIME_INCREMENT, TIMER_CONFIG.MAX_TIME);
       return {
         ...state,
@@ -148,6 +253,10 @@ function gameReducer(state: GameState, action: GameAction): GameState {
     }
 
     case 'DECREASE_TIME': {
+      // Can't adjust time in speed or endless mode
+      const modeConfig = GAME_MODES.find(m => m.id === state.gameMode);
+      if (!modeConfig?.allowTimeAdjust) return state;
+
       const newTime = Math.max(state.totalTime - TIMER_CONFIG.TIME_INCREMENT, TIMER_CONFIG.MIN_TIME);
       return {
         ...state,
@@ -156,8 +265,18 @@ function gameReducer(state: GameState, action: GameAction): GameState {
       };
     }
 
-    case 'END_GAME':
+    case 'END_GAME': {
+      // Update team score if in team mode
+      if (state.teams && state.gameMode === 'team') {
+        const updatedTeams = [...state.teams] as [Team, Team];
+        updatedTeams[state.currentTeamIndex] = {
+          ...updatedTeams[state.currentTeamIndex],
+          score: updatedTeams[state.currentTeamIndex].score + state.correctWords.length,
+        };
+        return { ...state, status: 'ended', teams: updatedTeams };
+      }
       return { ...state, status: 'ended' };
+    }
 
     case 'RESET_GAME': {
       // Re-shuffle words for the current category if we have words
@@ -175,6 +294,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         skippedWords: [],
         currentStreak: 0,
         maxStreak: 0,
+        skipCount: 0,
       };
     }
 
@@ -191,6 +311,10 @@ interface GameContextValue {
   dispatch: React.Dispatch<GameAction>;
   // Convenience methods
   selectCategory: (category: string, words: string[]) => void;
+  setGameMode: (mode: GameMode) => void;
+  setDifficulty: (difficulty: Difficulty) => void;
+  setTeams: (team1Name: string, team2Name: string) => void;
+  nextTeamTurn: () => void;
   startCountdown: () => void;
   startGame: () => void;
   pauseGame: () => void;
@@ -210,9 +334,9 @@ export function GameProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(gameReducer, initialState);
   const timerRef = useRef<number | null>(null);
 
-  // Timer effect
+  // Timer effect - only for timed modes
   useEffect(() => {
-    if (state.status === 'playing') {
+    if (state.status === 'playing' && state.gameMode !== 'endless') {
       timerRef.current = window.setInterval(() => {
         dispatch({ type: 'TICK' });
       }, 1000);
@@ -228,10 +352,26 @@ export function GameProvider({ children }: { children: ReactNode }) {
         clearInterval(timerRef.current);
       }
     };
-  }, [state.status]);
+  }, [state.status, state.gameMode]);
 
   const selectCategory = useCallback((category: string, words: string[]) => {
     dispatch({ type: 'SELECT_CATEGORY', payload: { category, words } });
+  }, []);
+
+  const setGameMode = useCallback((mode: GameMode) => {
+    dispatch({ type: 'SET_GAME_MODE', payload: mode });
+  }, []);
+
+  const setDifficulty = useCallback((difficulty: Difficulty) => {
+    dispatch({ type: 'SET_DIFFICULTY', payload: difficulty });
+  }, []);
+
+  const setTeams = useCallback((team1Name: string, team2Name: string) => {
+    dispatch({ type: 'SET_TEAMS', payload: { team1Name, team2Name } });
+  }, []);
+
+  const nextTeamTurn = useCallback(() => {
+    dispatch({ type: 'NEXT_TEAM_TURN' });
   }, []);
 
   const startCountdown = useCallback(() => {
@@ -288,6 +428,10 @@ export function GameProvider({ children }: { children: ReactNode }) {
     state,
     dispatch,
     selectCategory,
+    setGameMode,
+    setDifficulty,
+    setTeams,
+    nextTeamTurn,
     startCountdown,
     startGame,
     pauseGame,

@@ -1,46 +1,65 @@
-/* Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@700&display=swap');
+/* Google Fonts - Neon Arcade Theme */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap');
 
 @import "tailwindcss";
 
-/* Custom CSS Variables */
+/* Custom CSS Variables - Neon Arcade Theme */
 @theme {
-  /* Background colors */
-  --color-bg-primary: #1a1625;
-  --color-bg-secondary: #241d31;
-  --color-bg-tertiary: #2d2440;
-  --color-bg-quaternary: #362d48;
+  /* Background colors - Deep blacks */
+  --color-bg-primary: #0a0a0f;
+  --color-bg-secondary: #12121a;
+  --color-bg-tertiary: #1a1a24;
+  --color-bg-quaternary: #22222e;
 
-  /* Accent colors */
-  --color-accent-purple: #7c3aed;
-  --color-accent-purple-hover: #8b5cf6;
-  --color-accent-purple-active: #6d28d9;
+  /* Neon accent colors */
+  --color-neon-pink: #ff2d95;
+  --color-neon-pink-hover: #ff5aab;
+  --color-neon-pink-glow: rgba(255, 45, 149, 0.5);
 
-  /* Game colors */
-  --color-game-success: #10b981;
-  --color-game-success-hover: #059669;
-  --color-game-error: #ef4444;
-  --color-game-error-hover: #dc2626;
-  --color-game-warning: #f59e0b;
+  --color-neon-cyan: #00f5ff;
+  --color-neon-cyan-hover: #33f7ff;
+  --color-neon-cyan-glow: rgba(0, 245, 255, 0.5);
+
+  --color-neon-purple: #b026ff;
+  --color-neon-purple-hover: #c055ff;
+  --color-neon-purple-glow: rgba(176, 38, 255, 0.5);
+
+  --color-neon-yellow: #ffff00;
+  --color-neon-yellow-glow: rgba(255, 255, 0, 0.5);
+
+  --color-neon-green: #39ff14;
+  --color-neon-green-hover: #5fff3d;
+  --color-neon-green-glow: rgba(57, 255, 20, 0.5);
+
+  /* Game colors - mapped to neon */
+  --color-game-success: #39ff14;
+  --color-game-success-hover: #5fff3d;
+  --color-game-error: #ff2d95;
+  --color-game-error-hover: #ff5aab;
+  --color-game-warning: #ffff00;
 
   /* Text colors */
   --color-text-primary: #ffffff;
-  --color-text-secondary: #a0a0b8;
+  --color-text-secondary: #b0b0c8;
   --color-text-muted: #6b6b80;
 
-  /* Font families */
-  --font-display: 'Fredoka', cursive;
-  --font-body: 'Poppins', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  /* Font families - Neon Arcade */
+  --font-display: 'Orbitron', sans-serif;
+  --font-body: 'Rajdhani', sans-serif;
+  --font-mono: 'Share Tech Mono', monospace;
 
   /* Custom animations */
   --animate-shake: shake 0.5s cubic-bezier(.36,.07,.19,.97) infinite;
   --animate-pulse-slow: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-pulse-fast: pulse 0.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   --animate-pop: pop 0.3s ease-out;
   --animate-glow: glow 1.5s ease-in-out infinite;
+  --animate-glow-pink: glowPink 1.5s ease-in-out infinite;
+  --animate-glow-cyan: glowCyan 1.5s ease-in-out infinite;
   --animate-slide-up: slideUp 0.3s ease-out;
   --animate-slide-in: slideIn 0.3s ease-out;
   --animate-bounce-in: bounceIn 0.5s ease-out;
+  --animate-flicker: flicker 2s linear infinite;
 }
 
 /* Keyframes */
@@ -57,8 +76,37 @@
 }
 
 @keyframes glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(124, 58, 237, 0.5); }
-  50% { box-shadow: 0 0 40px rgba(124, 58, 237, 0.8); }
+  0%, 100% { box-shadow: 0 0 20px rgba(176, 38, 255, 0.5); }
+  50% { box-shadow: 0 0 40px rgba(176, 38, 255, 0.8); }
+}
+
+@keyframes glowPink {
+  0%, 100% { box-shadow: 0 0 20px rgba(255, 45, 149, 0.5); }
+  50% { box-shadow: 0 0 40px rgba(255, 45, 149, 0.8); }
+}
+
+@keyframes glowCyan {
+  0%, 100% { box-shadow: 0 0 20px rgba(0, 245, 255, 0.5); }
+  50% { box-shadow: 0 0 40px rgba(0, 245, 255, 0.8); }
+}
+
+@keyframes glowGreen {
+  0%, 100% { box-shadow: 0 0 20px rgba(57, 255, 20, 0.5); }
+  50% { box-shadow: 0 0 40px rgba(57, 255, 20, 0.8); }
+}
+
+@keyframes flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+    opacity: 1;
+    text-shadow:
+      0 0 10px currentColor,
+      0 0 20px currentColor,
+      0 0 40px currentColor;
+  }
+  20%, 24%, 55% {
+    opacity: 0.8;
+    text-shadow: none;
+  }
 }
 
 @keyframes slideUp {
@@ -123,58 +171,59 @@ body {
 }
 
 .btn-primary {
-  background: var(--color-accent-purple);
+  background: var(--color-neon-purple);
   color: white;
 }
 
 .btn-primary:hover {
-  background: var(--color-accent-purple-hover);
+  background: var(--color-neon-purple-hover);
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(124, 58, 237, 0.3);
+  box-shadow: 0 6px 20px var(--color-neon-purple-glow);
 }
 
 .btn-success {
-  background: var(--color-game-success);
-  color: white;
+  background: var(--color-neon-green);
+  color: #0a0a0f;
+  font-weight: 700;
 }
 
 .btn-success:hover {
-  background: var(--color-game-success-hover);
+  background: var(--color-neon-green-hover);
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.3);
+  box-shadow: 0 6px 20px var(--color-neon-green-glow);
 }
 
 .btn-danger {
-  background: var(--color-game-error);
+  background: var(--color-neon-pink);
   color: white;
 }
 
 .btn-danger:hover {
-  background: var(--color-game-error-hover);
+  background: var(--color-neon-pink-hover);
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(239, 68, 68, 0.3);
+  box-shadow: 0 6px 20px var(--color-neon-pink-glow);
 }
 
 /* Card styles */
 .card {
   background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-bg-tertiary) 100%);
   border-radius: 24px;
-  border: 1px solid rgba(124, 58, 237, 0.2);
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(176, 38, 255, 0.2);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
 }
 
 /* Timer states */
 .timer-normal {
-  color: var(--color-game-success);
+  color: var(--color-neon-cyan);
 }
 
 .timer-warning {
-  color: var(--color-game-warning);
+  color: var(--color-neon-yellow);
   animation: var(--animate-pulse-slow);
 }
 
 .timer-danger {
-  color: var(--color-game-error);
+  color: var(--color-neon-pink);
   animation: var(--animate-shake);
 }
 
@@ -193,5 +242,31 @@ body {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-accent-purple);
+  background: var(--color-neon-purple);
+}
+
+/* Neon text utilities */
+.neon-text-pink {
+  color: var(--color-neon-pink);
+  text-shadow: 0 0 10px var(--color-neon-pink-glow);
+}
+
+.neon-text-cyan {
+  color: var(--color-neon-cyan);
+  text-shadow: 0 0 10px var(--color-neon-cyan-glow);
+}
+
+.neon-text-purple {
+  color: var(--color-neon-purple);
+  text-shadow: 0 0 10px var(--color-neon-purple-glow);
+}
+
+.neon-text-green {
+  color: var(--color-neon-green);
+  text-shadow: 0 0 10px var(--color-neon-green-glow);
+}
+
+.neon-text-yellow {
+  color: var(--color-neon-yellow);
+  text-shadow: 0 0 10px var(--color-neon-yellow-glow);
 }

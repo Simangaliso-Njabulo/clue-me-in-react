@@ -46,12 +46,25 @@ export function PlayPage() {
     }
   }, [state.status, navigate, play]);
 
-  // Play tick sound when time is low
+  // Play sounds based on timer state
   useEffect(() => {
-    if (state.status === 'playing' && state.remainingTime <= 10 && state.remainingTime > 0) {
+    if (state.status !== 'playing' || state.remainingTime <= 0) return;
+
+    // Warning sound at 5 seconds or less
+    if (state.remainingTime <= 5) {
+      play('warning');
+    } else if (state.remainingTime <= 10) {
+      // Tick sound at 10 seconds or less
       play('tick');
     }
   }, [state.remainingTime, state.status, play]);
+
+  // Play card flip sound when word changes
+  useEffect(() => {
+    if (state.currentWord && state.status === 'playing') {
+      play('cardFlip');
+    }
+  }, [state.currentWord, state.status, play]);
 
   const handleCorrect = useCallback(() => {
     setDirection(1);
@@ -93,7 +106,7 @@ export function PlayPage() {
         <motion.div
           animate={{ rotate: 360 }}
           transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-          className="w-16 h-16 border-4 border-accent-purple border-t-transparent rounded-full"
+          className="w-16 h-16 border-4 border-neon-cyan border-t-transparent rounded-full"
         />
       </div>
     );

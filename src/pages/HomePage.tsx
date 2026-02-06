@@ -1,17 +1,24 @@
-import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { AudioSettings } from '../components/ui/AudioSettings';
+import { GameModeSelector } from '../components/game/GameModeSelector';
+import { TeamSetup } from '../components/game/TeamSetup';
 import { useGame } from '../context/GameContext';
 
 const steps = [
-  { number: 1, title: 'Choose Category', description: 'Pick from 15 exciting categories', icon: '📂' },
-  { number: 2, title: 'Set Timer', description: 'Use +/- to adjust (30s to 5min)', icon: '⏱️' },
+  { number: 1, title: 'Choose Mode', description: 'Classic, Speed, Endless, or Team', icon: '🎮' },
+  { number: 2, title: 'Pick Category', description: 'Select from 15+ categories', icon: '📂' },
   { number: 3, title: 'Start Game', description: 'Click the timer to begin!', icon: '▶️' },
   { number: 4, title: 'Guess Words', description: 'Tap Correct or Skip for each word', icon: '🎯' },
-  { number: 5, title: 'See Results', description: 'Check your score when time runs out', icon: '🏆' },
+  { number: 5, title: 'See Results', description: 'Check your score when done', icon: '🏆' },
 ];
 
 export function HomePage() {
-  const { state, toggleSound } = useGame();
+  const { state } = useGame();
+  const [showTeamSetup, setShowTeamSetup] = useState(false);
+
+  const needsTeamSetup = state.gameMode === 'team' && !state.teams;
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -20,23 +27,20 @@ export function HomePage() {
         <motion.h1
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="text-2xl sm:text-3xl font-display font-bold text-accent-purple"
+          className="text-2xl sm:text-3xl font-display font-black tracking-wider"
         >
-          Clue Me In
+          <span className="text-neon-pink">WORD</span>
+          <span className="text-neon-yellow">Z</span>
+          <span className="text-neon-cyan">APP</span>
         </motion.h1>
 
         {/* Sound Toggle */}
-        <motion.button
+        <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          onClick={toggleSound}
-          className="w-10 h-10 rounded-full bg-bg-tertiary hover:bg-bg-quaternary flex items-center justify-center transition-colors text-lg"
-          title={state.soundEnabled ? 'Sound On' : 'Sound Off'}
         >
-          {state.soundEnabled ? '🔊' : '🔇'}
-        </motion.button>
+          <AudioSettings compact />
+        </motion.div>
       </header>
 
       {/* Main Content */}
@@ -46,7 +50,7 @@ export function HomePage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="text-center mb-10 max-w-lg"
+          className="text-center mb-8 max-w-lg"
         >
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-display font-bold text-text-primary mb-4 leading-tight">
             Party Word Game
@@ -56,23 +60,71 @@ export function HomePage() {
           </p>
         </motion.div>
 
+        {/* Game Mode Selector */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15 }}
+          className="w-full max-w-md mb-8"
+        >
+          <GameModeSelector />
+        </motion.div>
+
+        {/* Team Setup Modal */}
+        <AnimatePresence>
+          {showTeamSetup && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-50 flex items-center justify-center bg-bg-primary/90 backdrop-blur-sm p-6"
+            >
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+              >
+                <TeamSetup onComplete={() => setShowTeamSetup(false)} />
+                <button
+                  onClick={() => setShowTeamSetup(false)}
+                  className="mt-4 w-full text-center text-text-muted text-sm hover:text-text-secondary"
+                >
+                  Cancel
+                </button>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         {/* Play Button */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.2 }}
-          className="mb-12"
+          className="mb-10"
         >
-          <Link to="/play">
+          {needsTeamSetup ? (
             <motion.button
-              whileHover={{ scale: 1.05, boxShadow: '0 16px 32px rgba(124, 58, 237, 0.35)' }}
+              whileHover={{ scale: 1.05, boxShadow: '0 16px 32px rgba(176, 38, 255, 0.5)' }}
               whileTap={{ scale: 0.95 }}
-              className="px-10 py-4 text-xl font-bold text-white bg-accent-purple rounded-xl
-                shadow-lg shadow-accent-purple/25 transition-shadow"
+              onClick={() => setShowTeamSetup(true)}
+              className="px-10 py-4 text-xl font-display font-bold text-white bg-neon-purple rounded-xl
+                shadow-lg shadow-neon-purple/30 transition-shadow"
             >
-              Play Now
+              Setup Teams
             </motion.button>
-          </Link>
+          ) : (
+            <Link to="/play">
+              <motion.button
+                whileHover={{ scale: 1.05, boxShadow: '0 16px 32px rgba(176, 38, 255, 0.5)' }}
+                whileTap={{ scale: 0.95 }}
+                className="px-10 py-4 text-xl font-display font-bold text-white bg-neon-purple rounded-xl
+                  shadow-lg shadow-neon-purple/30 transition-shadow"
+              >
+                Play Now
+              </motion.button>
+            </Link>
+          )}
         </motion.div>
 
         {/* How to Play */}
@@ -95,7 +147,7 @@ export function HomePage() {
                 transition={{ delay: 0.4 + index * 0.08 }}
                 className="flex items-center gap-4 p-3 rounded-xl bg-bg-secondary/50 border border-white/5"
               >
-                <div className="w-10 h-10 rounded-full bg-accent-purple/20 flex items-center justify-center
+                <div className="w-10 h-10 rounded-full bg-neon-purple/20 flex items-center justify-center
                   text-lg flex-shrink-0">
                   {step.icon}
                 </div>

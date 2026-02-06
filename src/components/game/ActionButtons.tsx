@@ -40,7 +40,7 @@ export function ActionButtons({ onCorrect, onSkip }: ActionButtonsProps) {
         className={`relative w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center
           text-3xl sm:text-4xl font-bold transition-all
           ${canInteract
-            ? 'bg-game-error hover:bg-game-error-hover text-white cursor-pointer shadow-lg shadow-game-error/30'
+            ? 'bg-neon-pink hover:bg-neon-pink-hover text-white cursor-pointer shadow-lg shadow-neon-pink/30'
             : 'bg-bg-tertiary text-text-muted cursor-not-allowed opacity-50'
           }
         `}
@@ -62,7 +62,7 @@ export function ActionButtons({ onCorrect, onSkip }: ActionButtonsProps) {
         className={`relative w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center
           text-3xl sm:text-4xl font-bold transition-all
           ${canInteract
-            ? 'bg-game-success hover:bg-game-success-hover text-white cursor-pointer shadow-lg shadow-game-success/30'
+            ? 'bg-neon-green hover:bg-neon-green-hover text-bg-primary cursor-pointer shadow-lg shadow-neon-green/30'
             : 'bg-bg-tertiary text-text-muted cursor-not-allowed opacity-50'
           }
         `}

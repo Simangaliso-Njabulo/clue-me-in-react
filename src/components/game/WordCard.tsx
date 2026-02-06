@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useGame } from '../../context/GameContext';
+import { GlassCard } from '../ui/GlassCard';
 
 const cardVariants = {
   enter: (direction: number) => ({
@@ -55,30 +56,30 @@ export function WordCard({ direction }: WordCardProps) {
 
   const content = getDisplayContent();
 
+  // Determine neon border color based on state
+  const getNeonBorder = () => {
+    if (isDangerTime) return 'pink' as const;
+    if (isLowTime) return 'yellow' as const;
+    return 'purple' as const;
+  };
+
   return (
-    <motion.div
-      className={`relative w-full h-48 sm:h-56 md:h-64 flex items-center justify-center
-        rounded-2xl sm:rounded-3xl overflow-hidden
-        ${isDangerTime ? 'shadow-[0_0_40px_rgba(239,68,68,0.4)]' : ''}
-        ${isLowTime && !isDangerTime ? 'shadow-[0_0_30px_rgba(245,158,11,0.25)]' : ''}
+    <GlassCard
+      variant="elevated"
+      neonBorder={getNeonBorder()}
+      className={`w-full h-48 sm:h-56 md:h-64 flex items-center justify-center
+        ${isDangerTime ? 'shadow-[0_0_40px_rgba(255,45,149,0.4)]' : ''}
+        ${isLowTime && !isDangerTime ? 'shadow-[0_0_30px_rgba(255,255,0,0.25)]' : ''}
       `}
       animate={isDangerTime ? {
         boxShadow: [
-          '0 0 30px rgba(239, 68, 68, 0.25)',
-          '0 0 60px rgba(239, 68, 68, 0.5)',
-          '0 0 30px rgba(239, 68, 68, 0.25)',
+          '0 0 30px rgba(255, 45, 149, 0.25)',
+          '0 0 60px rgba(255, 45, 149, 0.5)',
+          '0 0 30px rgba(255, 45, 149, 0.25)',
         ],
       } : {}}
       transition={isDangerTime ? { repeat: Infinity, duration: 0.5 } : {}}
     >
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-bg-secondary via-bg-tertiary to-bg-quaternary" />
-
-      {/* Animated border glow */}
-      <div className={`absolute inset-0 rounded-2xl sm:rounded-3xl border-2 transition-colors duration-300
-        ${isDangerTime ? 'border-game-error' : isLowTime ? 'border-game-warning' : 'border-accent-purple/30'}
-      `} />
-
       {/* Word content */}
       <AnimatePresence mode="wait" custom={direction}>
         <motion.div
@@ -100,7 +101,7 @@ export function WordCard({ direction }: WordCardProps) {
               ${content.isWord
                 ? 'text-4xl sm:text-5xl md:text-6xl lg:text-7xl'
                 : 'text-2xl sm:text-3xl md:text-4xl'}
-              ${isDangerTime ? 'text-game-error' : isLowTime ? 'text-game-warning' : 'text-text-primary'}
+              ${isDangerTime ? 'text-neon-pink' : isLowTime ? 'text-neon-yellow' : 'text-text-primary'}
             `}
             animate={isDangerTime ? {
               scale: [1, 1.02, 1],
@@ -121,6 +122,6 @@ export function WordCard({ direction }: WordCardProps) {
           )}
         </motion.div>
       </AnimatePresence>
-    </motion.div>
+    </GlassCard>
   );
 }

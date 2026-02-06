@@ -55,7 +55,7 @@ export function CountdownOverlay() {
                 stiffness: 400,
                 damping: 25,
               }}
-              className={`text-center ${typeof count === 'string' ? 'text-game-success' : 'text-accent-purple'}`}
+              className={`text-center ${typeof count === 'string' ? 'text-neon-green' : 'text-neon-cyan'}`}
             >
               <span className="font-display text-[12rem] sm:text-[16rem] font-bold leading-none drop-shadow-2xl">
                 {count}
