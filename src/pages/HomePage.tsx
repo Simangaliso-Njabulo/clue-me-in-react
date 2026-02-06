@@ -1,24 +1,49 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import { AudioSettings } from '../components/ui/AudioSettings';
-import { GameModeSelector } from '../components/game/GameModeSelector';
-import { TeamSetup } from '../components/game/TeamSetup';
-import { useGame } from '../context/GameContext';
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "react-router-dom";
+import { AudioSettings } from "../components/ui/AudioSettings";
+import { GameModeSelector } from "../components/game/GameModeSelector";
+import { TeamSetup } from "../components/game/TeamSetup";
+import { useGame } from "../context/GameContext";
 
 const steps = [
-  { number: 1, title: 'Choose Mode', description: 'Classic, Speed, Endless, or Team', icon: '🎮' },
-  { number: 2, title: 'Pick Category', description: 'Select from 15+ categories', icon: '📂' },
-  { number: 3, title: 'Start Game', description: 'Click the timer to begin!', icon: '▶️' },
-  { number: 4, title: 'Guess Words', description: 'Tap Correct or Skip for each word', icon: '🎯' },
-  { number: 5, title: 'See Results', description: 'Check your score when done', icon: '🏆' },
+  {
+    number: 1,
+    title: "Choose Mode",
+    description: "Classic, Speed, Endless, or Team",
+    icon: "🎮",
+  },
+  {
+    number: 2,
+    title: "Pick Category",
+    description: "Select from 15+ categories",
+    icon: "📂",
+  },
+  {
+    number: 3,
+    title: "Start Game",
+    description: "Click the timer to begin!",
+    icon: "▶️",
+  },
+  {
+    number: 4,
+    title: "Guess Words",
+    description: "Tap Correct or Skip for each word",
+    icon: "🎯",
+  },
+  {
+    number: 5,
+    title: "See Results",
+    description: "Check your score when done",
+    icon: "🏆",
+  },
 ];
 
 export function HomePage() {
   const { state } = useGame();
   const [showTeamSetup, setShowTeamSetup] = useState(false);
 
-  const needsTeamSetup = state.gameMode === 'team' && !state.teams;
+  const needsTeamSetup = state.gameMode === "team" && !state.teams;
 
   return (
     <div className="min-h-screen w-full flex flex-col">
@@ -52,7 +77,7 @@ export function HomePage() {
       </header>
 
       {/* Main Content */}
-      <main className="w-full flex-1 overflow-y-auto px-6 sm:px-8 py-8 flex flex-col items-center gap-10">
+      <main className="w-full flex-1 overflow-y-auto px-6 sm:px-8 py-8 flex flex-col items-center gap-7.5">
         {/* Hero Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -64,7 +89,8 @@ export function HomePage() {
             Party Word Game
           </h2>
           <p className="text-lg text-text-secondary">
-            Guess the words before time runs out! Perfect for parties and game nights.
+            Guess the words before time runs out! Perfect for parties and game
+            nights.
           </p>
         </motion.div>
 
@@ -87,10 +113,14 @@ export function HomePage() {
         >
           {needsTeamSetup ? (
             <motion.button
-              whileHover={{ scale: 1.05, boxShadow: '0 16px 32px rgba(176, 38, 255, 0.5)' }}
+              whileHover={{
+                scale: 1.05,
+                boxShadow: "0 16px 32px rgba(176, 38, 255, 0.5)",
+              }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setShowTeamSetup(true)}
-              className="px-10 py-4 text-xl font-display font-bold text-white bg-neon-purple rounded-xl
+              style={{ padding: "1rem 2.5rem" }}
+              className="text-xl font-display font-bold text-white bg-neon-purple rounded-2xl
                 shadow-lg shadow-neon-purple/30 transition-shadow"
             >
               Setup Teams
@@ -98,9 +128,13 @@ export function HomePage() {
           ) : (
             <Link to="/play">
               <motion.button
-                whileHover={{ scale: 1.05, boxShadow: '0 16px 32px rgba(176, 38, 255, 0.5)' }}
+                whileHover={{
+                  scale: 1.05,
+                  boxShadow: "0 16px 32px rgba(176, 38, 255, 0.5)",
+                }}
                 whileTap={{ scale: 0.95 }}
-                className="px-10 py-4 text-xl font-display font-bold text-white bg-neon-purple rounded-xl
+                style={{ padding: "0.5rem 1rem" }}
+                className="text-xl font-display font-bold text-white bg-neon-purple rounded-2xl
                   shadow-lg shadow-neon-purple/30 transition-shadow"
               >
                 Play Now
@@ -120,22 +154,29 @@ export function HomePage() {
             How to Play
           </h3>
 
-          <div className="space-y-3">
+          <div className="flex flex-col gap-1">
             {steps.map((step, index) => (
               <motion.div
                 key={step.number}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.4 + index * 0.08 }}
-                className="flex items-center gap-4 p-3 rounded-xl bg-bg-secondary/50 border border-white/5"
+                style={{ padding: "0.25rem 1rem" }}
+                className="flex items-center gap-4 rounded-xl bg-bg-secondary/50 border border-white/5"
               >
-                <div className="w-10 h-10 rounded-full bg-neon-purple/20 flex items-center justify-center
-                  text-lg flex-shrink-0">
+                <div
+                  className="w-10 h-10 rounded-full bg-neon-purple/20 flex items-center justify-center
+                  text-lg flex-shrink-0"
+                >
                   {step.icon}
                 </div>
                 <div className="min-w-0">
-                  <h4 className="font-semibold text-text-primary text-sm">{step.title}</h4>
-                  <p className="text-text-secondary text-xs">{step.description}</p>
+                  <h4 className="font-semibold text-text-primary text-sm">
+                    {step.title}
+                  </h4>
+                  <p className="text-text-secondary text-xs">
+                    {step.description}
+                  </p>
                 </div>
               </motion.div>
             ))}
