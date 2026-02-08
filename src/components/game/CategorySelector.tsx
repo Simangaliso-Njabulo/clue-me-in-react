@@ -16,21 +16,18 @@ export function CategorySelector({ words, compact = false }: CategorySelectorPro
   const isDisabled = status === 'playing' || status === 'countdown';
 
   const handleSelect = (category: string) => {
-    if (isDisabled) return;
+    if (isDisabled || !category || !words[category]) return;
     selectCategory(category, words[category]);
   };
 
   if (compact) {
     return (
-      <div className="relative">
+      <div className="category-select-wrapper">
         <select
           value={selectedCategory}
           onChange={(e) => handleSelect(e.target.value)}
           disabled={isDisabled}
-          className={`w-full px-4 py-3 rounded-xl bg-bg-tertiary text-text-primary border border-neon-purple/30
-            focus:outline-none focus:border-neon-purple appearance-none cursor-pointer
-            ${isDisabled ? 'opacity-50 cursor-not-allowed' : ''}
-          `}
+          className={`category-select ${isDisabled ? 'category-select--disabled' : ''}`}
         >
           <option value="">Select Category</option>
           {categories.map((category) => (
@@ -39,9 +36,7 @@ export function CategorySelector({ words, compact = false }: CategorySelectorPro
             </option>
           ))}
         </select>
-        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-text-secondary">
-          ▼
-        </div>
+        <span className="category-select-arrow">▼</span>
       </div>
     );
   }

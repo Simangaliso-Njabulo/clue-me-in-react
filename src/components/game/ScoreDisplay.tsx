@@ -31,7 +31,7 @@ export function ScoreDisplay() {
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0, opacity: 0 }}
-            className="flex items-center gap-1 px-3 py-1 rounded-full bg-neon-yellow/20 text-neon-yellow"
+            className="flex items-center gap-1 text-neon-yellow"
           >
             <motion.span
               animate={{

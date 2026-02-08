@@ -97,29 +97,29 @@ export function ResultsPage() {
   const stars = getStars();
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="results-page">
       {/* Main Content */}
-      <main className="flex-1 flex flex-col items-center px-6 py-8 overflow-y-auto">
+      <main className="results-main">
         {/* Team Mode Scoreboard */}
         {isTeamMode && teams && (
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="w-full max-w-md mb-6"
+            className="results-team-scoreboard"
           >
             <GlassCard variant="elevated" neonBorder="purple" className="p-4">
-              <div className="text-center mb-3">
-                <span className="text-xs text-text-muted font-display">Round {roundNumber}</span>
+              <div className="results-team-round">
+                Round {roundNumber}
               </div>
-              <div className="flex items-center justify-between">
+              <div className="results-team-scores">
                 {/* Team 1 */}
-                <div className={`text-center flex-1 ${currentTeamIndex === 0 ? 'opacity-100' : 'opacity-70'}`}>
-                  <div className={`text-sm font-display font-bold mb-1 ${
+                <div className={`results-team ${currentTeamIndex === 0 ? 'results-team--active' : 'results-team--inactive'}`}>
+                  <div className={`results-team-name ${
                     teams[0].color === 'pink' ? 'text-neon-pink' : 'text-neon-cyan'
                   }`}>
                     {teams[0].name}
                   </div>
-                  <div className={`text-4xl font-mono font-bold ${
+                  <div className={`results-team-score ${
                     teams[0].color === 'pink' ? 'text-neon-pink' : 'text-neon-cyan'
                   }`}>
                     {teams[0].score}
@@ -127,16 +127,16 @@ export function ResultsPage() {
                 </div>
 
                 {/* VS */}
-                <div className="px-4 text-text-muted font-display font-bold">VS</div>
+                <div className="results-team-vs">VS</div>
 
                 {/* Team 2 */}
-                <div className={`text-center flex-1 ${currentTeamIndex === 1 ? 'opacity-100' : 'opacity-70'}`}>
-                  <div className={`text-sm font-display font-bold mb-1 ${
+                <div className={`results-team ${currentTeamIndex === 1 ? 'results-team--active' : 'results-team--inactive'}`}>
+                  <div className={`results-team-name ${
                     teams[1].color === 'pink' ? 'text-neon-pink' : 'text-neon-cyan'
                   }`}>
                     {teams[1].name}
                   </div>
-                  <div className={`text-4xl font-mono font-bold ${
+                  <div className={`results-team-score ${
                     teams[1].color === 'pink' ? 'text-neon-pink' : 'text-neon-cyan'
                   }`}>
                     {teams[1].score}
@@ -145,8 +145,8 @@ export function ResultsPage() {
               </div>
 
               {/* Current team indicator */}
-              <div className="text-center mt-3">
-                <span className={`text-xs px-3 py-1 rounded-full ${
+              <div className="results-team-indicator">
+                <span className={`results-team-badge ${
                   currentTeam?.color === 'pink'
                     ? 'bg-neon-pink/20 text-neon-pink'
                     : 'bg-neon-cyan/20 text-neon-cyan'
@@ -162,7 +162,7 @@ export function ResultsPage() {
         <motion.h1
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-4xl sm:text-5xl font-display font-black text-neon-cyan mb-3"
+          className="results-title"
         >
           {isTeamMode ? "Turn Over!" : "Game Over!"}
         </motion.h1>
@@ -173,7 +173,7 @@ export function ResultsPage() {
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.15, type: 'spring' }}
-            className="flex gap-1 mb-6"
+            className="results-stars"
           >
             {[1, 2, 3].map((star) => (
               <motion.span
@@ -185,7 +185,7 @@ export function ResultsPage() {
                   rotate: 0,
                 }}
                 transition={{ delay: 0.25 + star * 0.1, type: 'spring' }}
-                className="text-3xl sm:text-4xl"
+                className="results-star"
               >
                 {star <= stars ? '⭐' : '☆'}
               </motion.span>
@@ -198,12 +198,12 @@ export function ResultsPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="text-center mb-6"
+          className="results-score-section"
         >
-          <div className="text-5xl sm:text-6xl font-bold font-mono text-neon-green mb-1">
+          <div className="results-score-number">
             {correctWords.length}
           </div>
-          <p className="text-text-secondary text-base">
+          <p className="results-score-text">
             correct out of {totalWords} ({percentage}%)
           </p>
           {maxStreak >= 3 && (
@@ -211,7 +211,7 @@ export function ResultsPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5 }}
-              className="mt-2 text-sm text-neon-yellow"
+              className="results-streak"
             >
               🔥 Best streak: {maxStreak} in a row!
             </motion.p>
@@ -223,52 +223,52 @@ export function ResultsPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
-          className="w-full max-w-lg grid grid-cols-2 gap-4 mb-8"
+          className="results-word-lists"
         >
           {/* Correct Words */}
-          <div className="bg-bg-secondary/50 rounded-xl p-4 border border-white/5">
-            <h3 className="text-sm font-bold text-neon-green mb-3 flex items-center gap-2">
+          <div className="results-word-card">
+            <h3 className="results-word-card-title results-word-card-title--correct">
               <span>✓</span> Correct ({correctWords.length})
             </h3>
-            <ul className="space-y-1.5 max-h-48 overflow-y-auto text-sm">
+            <ul className="results-word-list">
               {correctWords.map((word, index) => (
                 <motion.li
                   key={word + index}
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.5 + index * 0.02 }}
-                  className="flex items-center gap-2 text-text-primary"
+                  className="results-word-item"
                 >
-                  <span className="text-neon-green text-xs">✓</span>
-                  <span className="truncate">{word}</span>
+                  <span className="results-word-icon--correct">✓</span>
+                  <span className="results-word-name">{word}</span>
                 </motion.li>
               ))}
               {correctWords.length === 0 && (
-                <li className="text-text-muted italic text-xs">No correct words</li>
+                <li className="results-word-empty">No correct words</li>
               )}
             </ul>
           </div>
 
           {/* Skipped Words */}
-          <div className="bg-bg-secondary/50 rounded-xl p-4 border border-white/5">
-            <h3 className="text-sm font-bold text-neon-pink mb-3 flex items-center gap-2">
+          <div className="results-word-card">
+            <h3 className="results-word-card-title results-word-card-title--skipped">
               <span>✕</span> Skipped ({skippedWords.length})
             </h3>
-            <ul className="space-y-1.5 max-h-48 overflow-y-auto text-sm">
+            <ul className="results-word-list">
               {skippedWords.map((word, index) => (
                 <motion.li
                   key={word + index}
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.5 + index * 0.02 }}
-                  className="flex items-center gap-2 text-text-primary"
+                  className="results-word-item"
                 >
-                  <span className="text-neon-pink text-xs">✕</span>
-                  <span className="truncate">{word}</span>
+                  <span className="results-word-icon--skipped">✕</span>
+                  <span className="results-word-name">{word}</span>
                 </motion.li>
               ))}
               {skippedWords.length === 0 && (
-                <li className="text-text-muted italic text-xs">No skipped words</li>
+                <li className="results-word-empty">No skipped words</li>
               )}
             </ul>
           </div>
@@ -279,7 +279,7 @@ export function ResultsPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
-          className="flex flex-col sm:flex-row gap-3 w-full max-w-xs"
+          className="results-actions"
         >
           {isTeamMode ? (
             <>
@@ -287,10 +287,10 @@ export function ResultsPage() {
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
                 onClick={handleNextTurn}
-                className={`flex-1 px-6 py-3 text-base font-display font-bold text-white rounded-xl shadow-lg ${
+                className={`results-btn-team ${
                   currentTeamIndex === 0
-                    ? 'bg-neon-cyan shadow-neon-cyan/30'
-                    : 'bg-neon-pink shadow-neon-pink/30'
+                    ? 'bg-neon-cyan shadow-lg shadow-neon-cyan/30'
+                    : 'bg-neon-pink shadow-lg shadow-neon-pink/30'
                 }`}
               >
                 {teams![currentTeamIndex === 0 ? 1 : 0].name}'s Turn
@@ -300,8 +300,7 @@ export function ResultsPage() {
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
                 onClick={handlePlayAgain}
-                className="flex-1 px-6 py-3 text-base font-bold text-text-primary bg-bg-tertiary rounded-xl
-                  hover:bg-bg-quaternary transition-colors"
+                className="results-btn-secondary"
               >
                 New Game
               </motion.button>
@@ -312,18 +311,16 @@ export function ResultsPage() {
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
                 onClick={handlePlayAgain}
-                className="flex-1 px-6 py-3 text-base font-display font-bold text-white bg-neon-purple rounded-xl
-                  shadow-lg shadow-neon-purple/30"
+                className="results-btn-primary"
               >
                 Play Again
               </motion.button>
 
-              <Link to="/" className="flex-1">
+              <Link to="/" className="w-full">
                 <motion.button
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97 }}
-                  className="w-full px-6 py-3 text-base font-bold text-text-primary bg-bg-tertiary rounded-xl
-                    hover:bg-bg-quaternary transition-colors"
+                  className="results-btn-secondary w-full"
                 >
                   Home
                 </motion.button>
@@ -340,21 +337,21 @@ export function ResultsPage() {
             initial={{ opacity: 0, y: 50, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -20, scale: 0.9 }}
-            className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50"
+            className="results-toast"
           >
             <button
               onClick={dismissToast}
-              className="flex items-center gap-3 px-5 py-3 bg-bg-secondary border border-neon-yellow/50 rounded-xl shadow-lg shadow-neon-yellow/20"
+              className="results-toast-btn"
             >
-              <span className="text-3xl">{pendingToasts[0].icon}</span>
-              <div className="text-left">
-                <div className="text-xs text-neon-yellow font-display font-bold uppercase tracking-wider">
+              <span className="results-toast-icon">{pendingToasts[0].icon}</span>
+              <div className="results-toast-content">
+                <div className="results-toast-label">
                   Achievement Unlocked!
                 </div>
-                <div className="text-sm font-bold text-text-primary">
+                <div className="results-toast-name">
                   {pendingToasts[0].name}
                 </div>
-                <div className="text-xs text-text-muted">
+                <div className="results-toast-desc">
                   {pendingToasts[0].description}
                 </div>
               </div>

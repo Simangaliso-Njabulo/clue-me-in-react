@@ -9,7 +9,7 @@ function formatTime(seconds: number): string {
 }
 
 export function Timer() {
-  const { state, toggleTimer, increaseTime, decreaseTime } = useGame();
+  const { state, increaseTime, decreaseTime } = useGame();
   const { remainingTime, status, totalTime, gameMode, skipCount, teams, currentTeamIndex } = state;
 
   const modeConfig = GAME_MODES.find(m => m.id === gameMode);
@@ -17,7 +17,6 @@ export function Timer() {
   const isEndless = gameMode === 'endless';
   const skipsRemaining = 3 - skipCount;
 
-  // Determine timer color state
   const getTimerState = () => {
     if (isEndless) {
       if (skipsRemaining <= 1) return 'danger';
@@ -37,12 +36,10 @@ export function Timer() {
     danger: 'text-neon-pink',
   };
 
-  // Progress percentage for the ring
   const progress = isEndless
     ? (skipsRemaining / 3) * 100
     : (remainingTime / totalTime) * 100;
 
-  // Get current team color
   const currentTeamColor = teams ? teams[currentTeamIndex].color : null;
 
   return (
@@ -78,19 +75,13 @@ export function Timer() {
           −
         </motion.button>
 
-        {/* Timer Display */}
-        <motion.button
-          onClick={toggleTimer}
-          disabled={!state.currentWord || isEndless && status === 'playing'}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+        {/* Timer Display (read-only) */}
+        <motion.div
           animate={timerState === 'danger' && !isEndless ? {
             x: [0, -3, 3, -3, 3, 0],
             transition: { repeat: Infinity, duration: 0.5 }
           } : {}}
-          className={`relative w-32 h-32 rounded-full flex items-center justify-center cursor-pointer
-            ${!state.currentWord ? 'cursor-not-allowed opacity-50' : ''}
-          `}
+          className="relative w-32 h-32 rounded-full flex items-center justify-center"
         >
           {/* Background ring */}
           <svg className="absolute inset-0 w-full h-full -rotate-90">
@@ -153,7 +144,7 @@ export function Timer() {
               {formatTime(remainingTime)}
             </motion.span>
           )}
-        </motion.button>
+        </motion.div>
 
         {/* Increase Time Button */}
         <motion.button

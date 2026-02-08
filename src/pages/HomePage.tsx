@@ -7,69 +7,40 @@ import { TeamSetup } from "../components/game/TeamSetup";
 import { useGame } from "../context/GameContext";
 
 const steps = [
-  {
-    number: 1,
-    title: "Choose Mode",
-    description: "Classic, Speed, Endless, or Team",
-    icon: "🎮",
-  },
-  {
-    number: 2,
-    title: "Pick Category",
-    description: "Select from 15+ categories",
-    icon: "📂",
-  },
-  {
-    number: 3,
-    title: "Start Game",
-    description: "Click the timer to begin!",
-    icon: "▶️",
-  },
-  {
-    number: 4,
-    title: "Guess Words",
-    description: "Tap Correct or Skip for each word",
-    icon: "🎯",
-  },
-  {
-    number: 5,
-    title: "See Results",
-    description: "Check your score when done",
-    icon: "🏆",
-  },
+  { number: 1, title: "Choose Mode", description: "Classic, Speed, Endless, or Team", icon: "🎮" },
+  { number: 2, title: "Pick Category", description: "Select from 15+ categories", icon: "📂" },
+  { number: 3, title: "Start Game", description: "Click the timer to begin!", icon: "▶️" },
+  { number: 4, title: "Guess Words", description: "Tap Correct or Skip for each word", icon: "🎯" },
+  { number: 5, title: "See Results", description: "Check your score when done", icon: "🏆" },
 ];
 
 export function HomePage() {
   const { state } = useGame();
   const [showTeamSetup, setShowTeamSetup] = useState(false);
+  const [showHelp, setShowHelp] = useState(false);
 
   const needsTeamSetup = state.gameMode === "team" && !state.teams;
 
   return (
-    <div className="min-h-screen w-full flex flex-col">
+    <div className="home-page">
       {/* Header */}
-      <header className="w-full flex-shrink-0 px-6 sm:px-10 pt-8 pb-4 flex items-center justify-between">
+      <header className="home-header">
         <motion.h1
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="text-2xl sm:text-3xl font-display font-black tracking-wider"
+          className="home-logo"
         >
           <span className="text-neon-pink">WORD</span>
           <span className="text-neon-yellow">Z</span>
           <span className="text-neon-cyan">APP</span>
         </motion.h1>
 
-        {/* Header Actions */}
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="flex items-center gap-3"
+          className="home-header-actions"
         >
-          <Link
-            to="/stats"
-            className="w-10 h-10 flex items-center justify-center rounded-lg bg-bg-secondary/50 hover:bg-bg-secondary transition-colors text-lg"
-            title="Stats & Achievements"
-          >
+          <Link to="/stats" className="home-stats-link" title="Stats & Achievements">
             📊
           </Link>
           <AudioSettings compact />
@@ -77,20 +48,17 @@ export function HomePage() {
       </header>
 
       {/* Main Content */}
-      <main className="w-full flex-1 overflow-y-auto px-6 sm:px-8 py-8 flex flex-col items-center gap-7.5">
+      <main className="home-main">
         {/* Hero Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="text-center w-full max-w-xl"
+          className="home-hero"
         >
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-display font-bold text-text-primary mb-4 leading-tight">
-            Party Word Game
-          </h2>
-          <p className="text-lg text-text-secondary">
-            Guess the words before time runs out! Perfect for parties and game
-            nights.
+          <h2 className="home-hero-title">Party Word Game</h2>
+          <p className="home-hero-subtitle">
+            Guess the words before time runs out! Perfect for parties and game nights.
           </p>
         </motion.div>
 
@@ -99,7 +67,7 @@ export function HomePage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15 }}
-          className="w-full max-w-lg"
+          className="home-mode-selector"
         >
           <GameModeSelector />
         </motion.div>
@@ -109,33 +77,23 @@ export function HomePage() {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.2 }}
-          className="text-center"
+          className="home-play-section"
         >
           {needsTeamSetup ? (
             <motion.button
-              whileHover={{
-                scale: 1.05,
-                boxShadow: "0 16px 32px rgba(176, 38, 255, 0.5)",
-              }}
+              whileHover={{ scale: 1.05, boxShadow: "0 16px 32px rgba(176, 38, 255, 0.5)" }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setShowTeamSetup(true)}
-              style={{ padding: "1rem 2.5rem" }}
-              className="text-xl font-display font-bold text-white bg-neon-purple rounded-2xl
-                shadow-lg shadow-neon-purple/30 transition-shadow"
+              className="home-play-btn"
             >
               Setup Teams
             </motion.button>
           ) : (
             <Link to="/play">
               <motion.button
-                whileHover={{
-                  scale: 1.05,
-                  boxShadow: "0 16px 32px rgba(176, 38, 255, 0.5)",
-                }}
+                whileHover={{ scale: 1.05, boxShadow: "0 16px 32px rgba(176, 38, 255, 0.5)" }}
                 whileTap={{ scale: 0.95 }}
-                style={{ padding: "0.5rem 1rem" }}
-                className="text-xl font-display font-bold text-white bg-neon-purple rounded-2xl
-                  shadow-lg shadow-neon-purple/30 transition-shadow"
+                className="home-play-btn"
               >
                 Play Now
               </motion.button>
@@ -143,45 +101,57 @@ export function HomePage() {
           )}
         </motion.div>
 
-        {/* How to Play */}
-        <motion.div
+        {/* How to Play Button */}
+        <motion.button
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
-          className="w-full max-w-lg"
+          className="home-help-btn"
+          onClick={() => setShowHelp(true)}
         >
-          <h3 className="text-xl font-display font-bold text-center mb-6 text-text-primary">
-            How to Play
-          </h3>
+          <span className="home-help-icon">?</span>
+          How to Play
+        </motion.button>
 
-          <div className="flex flex-col gap-1">
-            {steps.map((step, index) => (
+        {/* How to Play Modal */}
+        <AnimatePresence>
+          {showHelp && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="home-modal-overlay"
+              onClick={() => setShowHelp(false)}
+            >
               <motion.div
-                key={step.number}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.4 + index * 0.08 }}
-                style={{ padding: "0.25rem 1rem" }}
-                className="flex items-center gap-4 rounded-xl bg-bg-secondary/50 border border-white/5"
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+                className="home-help-modal"
+                onClick={(e) => e.stopPropagation()}
               >
-                <div
-                  className="w-10 h-10 rounded-full bg-neon-purple/20 flex items-center justify-center
-                  text-lg flex-shrink-0"
+                <h3 className="home-help-title">How to Play</h3>
+                <div className="home-steps-list">
+                  {steps.map((step) => (
+                    <div key={step.number} className="home-step">
+                      <div className="home-step-icon">{step.icon}</div>
+                      <div className="home-step-text">
+                        <h4 className="home-step-title">{step.title}</h4>
+                        <p className="home-step-desc">{step.description}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <button
+                  className="home-help-close"
+                  onClick={() => setShowHelp(false)}
                 >
-                  {step.icon}
-                </div>
-                <div className="min-w-0">
-                  <h4 className="font-semibold text-text-primary text-sm">
-                    {step.title}
-                  </h4>
-                  <p className="text-text-secondary text-xs">
-                    {step.description}
-                  </p>
-                </div>
+                  Got it!
+                </button>
               </motion.div>
-            ))}
-          </div>
-        </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Team Setup Modal */}
         <AnimatePresence>
@@ -190,7 +160,7 @@ export function HomePage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 z-50 flex items-center justify-center bg-bg-primary/90 backdrop-blur-sm p-6"
+              className="home-modal-overlay"
             >
               <motion.div
                 initial={{ scale: 0.9, opacity: 0 }}
@@ -200,7 +170,7 @@ export function HomePage() {
                 <TeamSetup onComplete={() => setShowTeamSetup(false)} />
                 <button
                   onClick={() => setShowTeamSetup(false)}
-                  className="mt-4 w-full text-center text-text-muted text-sm hover:text-text-secondary"
+                  className="home-modal-cancel"
                 >
                   Cancel
                 </button>
@@ -211,8 +181,8 @@ export function HomePage() {
       </main>
 
       {/* Footer */}
-      <footer className="w-full flex-shrink-0 px-6 sm:px-10 py-6 text-center">
-        <p className="text-text-muted text-xs">
+      <footer className="home-footer">
+        <p className="home-footer-text">
           Swipe right for correct, left for skip on mobile
         </p>
       </footer>
