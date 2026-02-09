@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { GlassCard } from '../components/ui/GlassCard';
 import { Icon } from '../components/ui/Icon';
 import { useAchievements } from '../hooks/useAchievements';
 
@@ -10,42 +9,38 @@ export function AchievementsPage() {
   const progressPercent = Math.round((unlockedAchievements.length / achievements.length) * 100);
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="achievements-page">
       {/* Header */}
-      <header className="px-6 py-4 flex items-center justify-between">
-        <Link
-          to="/stats"
-          className="text-text-muted hover:text-text-primary transition-colors font-display"
-        >
+      <header className="achievements-header">
+        <Link to="/stats" className="achievements-back-link">
           &larr; Back
         </Link>
-        <h1 className="text-xl font-display font-bold text-neon-yellow">Achievements</h1>
-        <div className="w-12" />
+        <h1 className="achievements-header-title">Achievements</h1>
+        <div className="achievements-header-spacer" />
       </header>
 
-      <main className="flex-1 px-6 py-4 overflow-y-auto">
+      <main className="achievements-main">
         {/* Progress */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-6"
         >
-          <GlassCard variant="elevated" neonBorder="yellow" className="p-4">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-sm font-display font-bold text-text-primary">Progress</span>
-              <span className="text-sm font-mono text-neon-yellow">
+          <div className="achievements-progress">
+            <div className="achievements-progress-header">
+              <span className="achievements-progress-label">Progress</span>
+              <span className="achievements-progress-count">
                 {unlockedAchievements.length}/{achievements.length}
               </span>
             </div>
-            <div className="h-2 bg-bg-primary rounded-full overflow-hidden">
+            <div className="achievements-progress-track">
               <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: `${progressPercent}%` }}
                 transition={{ duration: 0.5, delay: 0.2 }}
-                className="h-full bg-gradient-to-r from-neon-yellow to-neon-green rounded-full"
+                className="achievements-progress-fill"
               />
             </div>
-          </GlassCard>
+          </div>
         </motion.div>
 
         {/* Unlocked Achievements */}
@@ -54,33 +49,25 @@ export function AchievementsPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="mb-6"
           >
-            <h2 className="text-sm font-display font-bold text-neon-green uppercase tracking-wider mb-3">
+            <h2 className="achievements-section-title achievements-section-title--unlocked">
               Unlocked ({unlockedAchievements.length})
             </h2>
-            <div className="space-y-2">
+            <div className="achievements-list">
               {unlockedAchievements.map((achievement, index) => (
                 <motion.div
                   key={achievement.id}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.15 + index * 0.05 }}
+                  className="achievement-card achievement-card--unlocked"
                 >
-                  <GlassCard neonBorder="green" className="p-3">
-                    <div className="flex items-center gap-3">
-                      <span className="text-3xl flex items-center"><Icon name={achievement.icon} size={28} /></span>
-                      <div className="flex-1">
-                        <div className="font-display font-bold text-text-primary">
-                          {achievement.name}
-                        </div>
-                        <div className="text-xs text-text-muted">
-                          {achievement.description}
-                        </div>
-                      </div>
-                      <span className="text-neon-green text-xl"><Icon name="check" size={20} /></span>
-                    </div>
-                  </GlassCard>
+                  <span className="achievement-card-icon"><Icon name={achievement.icon} size={28} /></span>
+                  <div className="achievement-card-info">
+                    <div className="achievement-card-name">{achievement.name}</div>
+                    <div className="achievement-card-desc">{achievement.description}</div>
+                  </div>
+                  <span className="achievement-card-status achievement-card-status--unlocked"><Icon name="check" size={20} /></span>
                 </motion.div>
               ))}
             </div>
@@ -94,31 +81,24 @@ export function AchievementsPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <h2 className="text-sm font-display font-bold text-text-muted uppercase tracking-wider mb-3">
+            <h2 className="achievements-section-title achievements-section-title--locked">
               Locked ({lockedAchievements.length})
             </h2>
-            <div className="space-y-2">
+            <div className="achievements-list">
               {lockedAchievements.map((achievement, index) => (
                 <motion.div
                   key={achievement.id}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.25 + index * 0.03 }}
+                  className="achievement-card achievement-card--locked"
                 >
-                  <GlassCard className="p-3 opacity-60">
-                    <div className="flex items-center gap-3">
-                      <span className="text-3xl grayscale flex items-center"><Icon name={achievement.icon} size={28} /></span>
-                      <div className="flex-1">
-                        <div className="font-display font-bold text-text-muted">
-                          {achievement.name}
-                        </div>
-                        <div className="text-xs text-text-muted">
-                          {achievement.criteria}
-                        </div>
-                      </div>
-                      <span className="text-text-muted text-xl"><Icon name="lock" size={20} /></span>
-                    </div>
-                  </GlassCard>
+                  <span className="achievement-card-icon achievement-card-icon--locked"><Icon name={achievement.icon} size={28} /></span>
+                  <div className="achievement-card-info">
+                    <div className="achievement-card-name">{achievement.name}</div>
+                    <div className="achievement-card-desc">{achievement.criteria}</div>
+                  </div>
+                  <span className="achievement-card-status achievement-card-status--locked"><Icon name="lock" size={20} /></span>
                 </motion.div>
               ))}
             </div>
