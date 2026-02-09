@@ -2,14 +2,15 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { AudioSettings } from "../components/ui/AudioSettings";
+import { WordPackSelector } from "../components/game/WordPackSelector";
 import { GameModeSelector } from "../components/game/GameModeSelector";
 import { TeamSetup } from "../components/game/TeamSetup";
 import { useGame } from "../context/GameContext";
 
 const steps = [
-  { number: 1, title: "Choose Mode", description: "Classic, Speed, Endless, or Team", icon: "🎮" },
-  { number: 2, title: "Pick Category", description: "Select from 15+ categories", icon: "📂" },
-  { number: 3, title: "Start Game", description: "Click the timer to begin!", icon: "▶️" },
+  { number: 1, title: "Pick a Pack", description: "Mzansi, General, Industry, Bible, or Kids", icon: "📦" },
+  { number: 2, title: "Choose Mode", description: "Classic, Speed, Endless, or Team", icon: "🎮" },
+  { number: 3, title: "Pick Category", description: "Select from the pack's categories", icon: "📂" },
   { number: 4, title: "Guess Words", description: "Tap Correct or Skip for each word", icon: "🎯" },
   { number: 5, title: "See Results", description: "Check your score when done", icon: "🏆" },
 ];
@@ -30,9 +31,9 @@ export function HomePage() {
           animate={{ opacity: 1, x: 0 }}
           className="home-logo"
         >
-          <span className="text-neon-pink">WORD</span>
-          <span className="text-neon-yellow">Z</span>
-          <span className="text-neon-cyan">APP</span>
+          <span className="text-text-primary">WORD</span>
+          <span className="text-neon-blue">Z</span>
+          <span className="text-text-primary">APP</span>
         </motion.h1>
 
         <motion.div
@@ -62,11 +63,21 @@ export function HomePage() {
           </p>
         </motion.div>
 
+        {/* Word Pack Selector */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.12 }}
+          className="home-mode-selector"
+        >
+          <WordPackSelector />
+        </motion.div>
+
         {/* Game Mode Selector */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.15 }}
+          transition={{ delay: 0.18 }}
           className="home-mode-selector"
         >
           <GameModeSelector />

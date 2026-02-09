@@ -23,16 +23,16 @@ export function TeamSetup({ onComplete }: TeamSetupProps) {
   };
 
   return (
-    <GlassCard variant="elevated" neonBorder="purple" className="p-6 w-full max-w-md">
-      <h3 className="font-display font-bold text-xl text-center text-text-primary mb-6">
+    <GlassCard variant="elevated" neonBorder="cyan" className="team-setup">
+      <h3 className="team-setup-title">
         👥 Team Setup
       </h3>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="team-setup-form">
         {/* Team 1 */}
-        <div>
-          <label className="block text-sm text-text-secondary mb-2">
-            <span className="text-neon-pink">Team 1</span> Name
+        <div className="team-setup-field">
+          <label className="team-setup-label">
+            <span className="team-setup-label--team1">Team 1</span> Name
           </label>
           <input
             type="text"
@@ -40,24 +40,21 @@ export function TeamSetup({ onComplete }: TeamSetupProps) {
             onChange={(e) => setTeam1Name(e.target.value)}
             placeholder="Team 1"
             maxLength={20}
-            className="w-full px-4 py-3 rounded-xl bg-bg-tertiary border border-neon-pink/30
-              text-text-primary placeholder-text-muted font-display
-              focus:outline-none focus:border-neon-pink focus:ring-1 focus:ring-neon-pink/50
-              transition-colors"
+            className="team-setup-input team-setup-input--team1"
           />
         </div>
 
         {/* VS Divider */}
-        <div className="flex items-center gap-4 py-2">
-          <div className="flex-1 h-px bg-white/10" />
-          <span className="text-text-muted font-display font-bold">VS</span>
-          <div className="flex-1 h-px bg-white/10" />
+        <div className="team-setup-divider">
+          <div className="team-setup-divider-line" />
+          <span className="team-setup-divider-text">VS</span>
+          <div className="team-setup-divider-line" />
         </div>
 
         {/* Team 2 */}
-        <div>
-          <label className="block text-sm text-text-secondary mb-2">
-            <span className="text-neon-cyan">Team 2</span> Name
+        <div className="team-setup-field">
+          <label className="team-setup-label">
+            <span className="team-setup-label--team2">Team 2</span> Name
           </label>
           <input
             type="text"
@@ -65,10 +62,7 @@ export function TeamSetup({ onComplete }: TeamSetupProps) {
             onChange={(e) => setTeam2Name(e.target.value)}
             placeholder="Team 2"
             maxLength={20}
-            className="w-full px-4 py-3 rounded-xl bg-bg-tertiary border border-neon-cyan/30
-              text-text-primary placeholder-text-muted font-display
-              focus:outline-none focus:border-neon-cyan focus:ring-1 focus:ring-neon-cyan/50
-              transition-colors"
+            className="team-setup-input team-setup-input--team2"
           />
         </div>
 
@@ -76,7 +70,7 @@ export function TeamSetup({ onComplete }: TeamSetupProps) {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="pt-4"
+          className="team-setup-submit"
         >
           <NeonButton type="submit" variant="primary" size="lg" className="w-full">
             Start Battle!

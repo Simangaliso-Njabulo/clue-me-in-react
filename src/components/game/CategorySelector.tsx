@@ -59,7 +59,7 @@ export function CategorySelector({ words, compact = false }: CategorySelectorPro
             disabled={isDisabled}
             className={`relative p-4 rounded-xl text-center transition-all
               ${isSelected
-                ? 'bg-neon-purple text-white shadow-lg shadow-neon-purple/30'
+                ? 'bg-neon-blue text-white shadow-lg shadow-neon-blue/30'
                 : 'bg-bg-tertiary hover:bg-bg-quaternary text-text-primary'
               }
               ${isDisabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}

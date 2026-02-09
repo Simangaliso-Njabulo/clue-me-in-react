@@ -13,13 +13,13 @@ interface GlassCardProps extends Omit<HTMLMotionProps<'div'>, 'children'> {
 const variants = {
   default: {
     background: 'rgba(255, 255, 255, 0.05)',
-    border: 'rgba(255, 255, 255, 0.1)',
-    shadow: '0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+    border: 'rgba(255, 255, 255, 0.08)',
+    shadow: '0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.06)',
   },
   elevated: {
-    background: 'rgba(255, 255, 255, 0.08)',
-    border: 'rgba(255, 255, 255, 0.15)',
-    shadow: '0 12px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
+    background: 'rgba(255, 255, 255, 0.07)',
+    border: 'rgba(255, 255, 255, 0.1)',
+    shadow: '0 12px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08)',
   },
   subtle: {
     background: 'rgba(255, 255, 255, 0.03)',
@@ -30,11 +30,11 @@ const variants = {
 
 const neonBorders = {
   none: '',
-  pink: 'border-neon-pink/30 shadow-[0_0_15px_rgba(255,45,149,0.2)]',
-  cyan: 'border-neon-cyan/30 shadow-[0_0_15px_rgba(0,245,255,0.2)]',
-  purple: 'border-neon-purple/30 shadow-[0_0_15px_rgba(176,38,255,0.2)]',
-  green: 'border-neon-green/30 shadow-[0_0_15px_rgba(57,255,20,0.2)]',
-  yellow: 'border-neon-yellow/30 shadow-[0_0_15px_rgba(255,255,0,0.2)]',
+  pink: 'border-neon-pink/25 shadow-[0_0_12px_rgba(244,114,182,0.15)]',
+  cyan: 'border-neon-blue/25 shadow-[0_0_12px_rgba(79,110,247,0.15)]',
+  purple: 'border-neon-blue/25 shadow-[0_0_12px_rgba(79,110,247,0.15)]',
+  green: 'border-neon-green/25 shadow-[0_0_12px_rgba(52,211,153,0.15)]',
+  yellow: 'border-neon-yellow/25 shadow-[0_0_12px_rgba(251,191,36,0.15)]',
 };
 
 export function GlassCard({
@@ -53,7 +53,7 @@ export function GlassCard({
       transition={{ duration: 0.2 }}
       className={`
         relative rounded-2xl overflow-hidden
-        backdrop-blur-md
+        backdrop-blur-xl
         ${neonBorder !== 'none' ? neonBorders[neonBorder] : ''}
         ${className}
       `}
@@ -68,7 +68,7 @@ export function GlassCard({
       <div
         className="absolute inset-x-0 top-0 h-px"
         style={{
-          background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)',
+          background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)',
         }}
       />
 

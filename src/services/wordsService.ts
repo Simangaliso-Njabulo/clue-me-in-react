@@ -1,33 +1,29 @@
-import type { WordsData } from '../types/game';
+import type { WordsData, WordPack } from '../types/game';
+import { WORD_PACKS } from '../types/game';
 
-const WORDS_URL = './data/words.json';
-const MZANSI_WORDS_URL = './data/mzansi-words.json';
+const packCache: Partial<Record<WordPack, WordsData>> = {};
 
-let cachedWords: WordsData | null = null;
+export async function loadWordPack(pack: WordPack): Promise<WordsData> {
+  if (packCache[pack]) {
+    return packCache[pack];
+  }
 
-export async function loadAllWords(): Promise<WordsData> {
-  if (cachedWords) {
-    return cachedWords;
+  const config = WORD_PACKS.find(p => p.id === pack);
+  if (!config) {
+    throw new Error(`Unknown word pack: ${pack}`);
   }
 
   try {
-    const [wordsResponse, mzansiResponse] = await Promise.all([
-      fetch(WORDS_URL),
-      fetch(MZANSI_WORDS_URL),
-    ]);
-
-    if (!wordsResponse.ok || !mzansiResponse.ok) {
-      throw new Error('Failed to load word data');
+    const response = await fetch(config.jsonFile);
+    if (!response.ok) {
+      throw new Error(`Failed to load word pack: ${pack}`);
     }
 
-    const words: WordsData = await wordsResponse.json();
-    const mzansiWords: WordsData = await mzansiResponse.json();
-
-    // Merge both word sets
-    cachedWords = { ...words, ...mzansiWords };
-    return cachedWords;
+    const data: WordsData = await response.json();
+    packCache[pack] = data;
+    return data;
   } catch (error) {
-    console.error('Error loading words:', error);
+    console.error(`Error loading word pack "${pack}":`, error);
     throw error;
   }
 }

@@ -11,11 +11,10 @@ interface Particle {
 }
 
 const COLORS = [
-  'rgba(255, 45, 149, 0.6)',  // neon-pink
-  'rgba(0, 245, 255, 0.6)',   // neon-cyan
-  'rgba(176, 38, 255, 0.6)',  // neon-purple
-  'rgba(57, 255, 20, 0.4)',   // neon-green
-  'rgba(255, 255, 0, 0.4)',   // neon-yellow
+  'rgba(79, 110, 247, 0.4)',   // blue primary
+  'rgba(99, 130, 255, 0.3)',   // blue lighter
+  'rgba(79, 110, 247, 0.25)',  // blue subtle
+  'rgba(139, 146, 168, 0.2)',  // neutral muted
 ];
 
 interface ParticleBackgroundProps {
@@ -24,7 +23,7 @@ interface ParticleBackgroundProps {
 }
 
 export function ParticleBackground({
-  particleCount = 50,
+  particleCount = 30,
   className = '',
 }: ParticleBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -49,11 +48,11 @@ export function ParticleBackground({
     return {
       x: Math.random() * width,
       y: Math.random() * height,
-      size: Math.random() * 3 + 1,
-      speedX: (Math.random() - 0.5) * 0.3,
-      speedY: -Math.random() * 0.5 - 0.1, // Move upward
+      size: Math.random() * 2 + 0.5,
+      speedX: (Math.random() - 0.5) * 0.2,
+      speedY: -Math.random() * 0.3 - 0.05,
       color: COLORS[Math.floor(Math.random() * COLORS.length)],
-      opacity: Math.random() * 0.5 + 0.2,
+      opacity: Math.random() * 0.4 + 0.1,
     };
   }, []);
 
@@ -85,8 +84,7 @@ export function ParticleBackground({
       particlesRef.current.forEach((particle) => {
         ctx.beginPath();
         ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-        ctx.fillStyle = particle.color.replace('0.6', String(particle.opacity * 0.5))
-          .replace('0.4', String(particle.opacity * 0.5));
+        ctx.fillStyle = particle.color.replace(/[\d.]+\)$/, `${particle.opacity * 0.5})`);
         ctx.fill();
       });
       return () => window.removeEventListener('resize', resizeCanvas);
@@ -111,12 +109,11 @@ export function ParticleBackground({
         // Draw particle
         ctx.beginPath();
         ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-        ctx.fillStyle = particle.color.replace('0.6', String(particle.opacity))
-          .replace('0.4', String(particle.opacity));
+        ctx.fillStyle = particle.color.replace(/[\d.]+\)$/, `${particle.opacity})`);
         ctx.fill();
 
-        // Add glow effect
-        ctx.shadowBlur = 10;
+        // Subtle glow effect
+        ctx.shadowBlur = 5;
         ctx.shadowColor = particle.color;
       });
 
@@ -135,7 +132,7 @@ export function ParticleBackground({
     <canvas
       ref={canvasRef}
       className={`fixed inset-0 pointer-events-none z-0 ${className}`}
-      style={{ opacity: 0.6 }}
+      style={{ opacity: 0.3 }}
     />
   );
 }

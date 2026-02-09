@@ -1,5 +1,54 @@
 export type GameStatus = 'idle' | 'countdown' | 'playing' | 'paused' | 'ended';
 
+// Word Packs
+export type WordPack = 'mzansi' | 'general' | 'industry' | 'bible' | 'kids';
+
+export interface WordPackConfig {
+  id: WordPack;
+  name: string;
+  description: string;
+  icon: string;
+  jsonFile: string;
+}
+
+export const WORD_PACKS: WordPackConfig[] = [
+  {
+    id: 'mzansi',
+    name: 'Mzansi',
+    description: 'South African vibes',
+    icon: '🇿🇦',
+    jsonFile: './data/mzansi-words.json',
+  },
+  {
+    id: 'general',
+    name: 'General',
+    description: 'International pop culture',
+    icon: '🌍',
+    jsonFile: './data/general-words.json',
+  },
+  {
+    id: 'industry',
+    name: 'Industry',
+    description: 'IT, Medical, Legal & more',
+    icon: '💼',
+    jsonFile: './data/industry-words.json',
+  },
+  {
+    id: 'bible',
+    name: 'Bible',
+    description: 'Biblical knowledge',
+    icon: '📖',
+    jsonFile: './data/bible-words.json',
+  },
+  {
+    id: 'kids',
+    name: 'Kids',
+    description: 'Family-friendly fun',
+    icon: '🧒',
+    jsonFile: './data/kids-words.json',
+  },
+];
+
 // Game Modes
 export type GameMode = 'classic' | 'speed' | 'endless' | 'team';
 
@@ -74,6 +123,9 @@ export interface GameState {
   // Game status
   status: GameStatus;
 
+  // Word pack
+  wordPack: WordPack;
+
   // Game mode
   gameMode: GameMode;
   difficulty: Difficulty;
@@ -107,6 +159,7 @@ export interface GameState {
 }
 
 export type GameAction =
+  | { type: 'SET_WORD_PACK'; payload: WordPack }
   | { type: 'SET_CATEGORIES'; payload: string[] }
   | { type: 'SELECT_CATEGORY'; payload: { category: string; words: string[] } }
   | { type: 'SET_GAME_MODE'; payload: GameMode }
@@ -124,6 +177,7 @@ export type GameAction =
   | { type: 'DECREASE_TIME' }
   | { type: 'END_GAME' }
   | { type: 'RESET_GAME' }
+  | { type: 'RESTART_GAME' }
   | { type: 'TOGGLE_SOUND' };
 
 export interface WordsData {
@@ -149,10 +203,33 @@ export const CATEGORY_ICONS: Record<string, string> = {
   'Alcohol': '🍻',
   // Mzansi categories
   'Local Foods': '🍲',
-  'South African Music Genres': '🎤',
+  'SA Music Genres': '🎤',
   'Popular Local TV Shows': '📺',
-  'South African Sport Teams': '⚽',
+  'SA Sport Teams': '⚽',
   'Local Celebrities': '🌟',
-  'South African Slang/Phrases': '💬',
+  'Mzansi Slang': '💬',
   'Local Brands': '🛒',
+  'SA Places & Landmarks': '🗺️',
+  'Mzansi Dances': '💃',
+  // Industry categories
+  'IT & Tech': '💻',
+  'Medical': '🏥',
+  'Accounting & Finance': '📊',
+  'Engineering': '⚙️',
+  'Legal': '⚖️',
+  'Education': '🎓',
+  // Bible categories
+  'Bible Characters': '👤',
+  'Bible Stories': '📜',
+  'Books of the Bible': '📚',
+  'Bible Places': '🏛️',
+  'Bible Objects & Symbols': '✝️',
+  'Parables': '🕊️',
+  // Kids categories
+  'Animals': '🦁',
+  'Cartoons & Characters': '🎬',
+  'Superheroes': '🦸',
+  'Toys & Games': '🧸',
+  'Food Kids Love': '🍦',
+  'School Things': '🎒',
 };

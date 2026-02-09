@@ -53,7 +53,7 @@ export function ResultsPage() {
         particleCount: count,
         spread: 70,
         origin: { y: 0.6 },
-        colors: ['#ff2d95', '#00f5ff', '#b026ff', '#39ff14', '#ffff00'],
+        colors: ['#4f6ef7', '#6b85ff', '#34d399', '#f472b6', '#fbbf24'],
       });
 
       if (percentage >= 70) {
@@ -63,14 +63,14 @@ export function ResultsPage() {
             angle: 60,
             spread: 55,
             origin: { x: 0 },
-            colors: ['#ff2d95', '#00f5ff'],
+            colors: ['#4f6ef7', '#34d399'],
           });
           confetti({
             particleCount: 100,
             angle: 120,
             spread: 55,
             origin: { x: 1 },
-            colors: ['#b026ff', '#39ff14'],
+            colors: ['#6b85ff', '#fbbf24'],
           });
         }, 300);
       }
@@ -115,12 +115,12 @@ export function ResultsPage() {
                 {/* Team 1 */}
                 <div className={`results-team ${currentTeamIndex === 0 ? 'results-team--active' : 'results-team--inactive'}`}>
                   <div className={`results-team-name ${
-                    teams[0].color === 'pink' ? 'text-neon-pink' : 'text-neon-cyan'
+                    teams[0].color === 'pink' ? 'text-neon-pink' : 'text-neon-blue'
                   }`}>
                     {teams[0].name}
                   </div>
                   <div className={`results-team-score ${
-                    teams[0].color === 'pink' ? 'text-neon-pink' : 'text-neon-cyan'
+                    teams[0].color === 'pink' ? 'text-neon-pink' : 'text-neon-blue'
                   }`}>
                     {teams[0].score}
                   </div>
@@ -132,12 +132,12 @@ export function ResultsPage() {
                 {/* Team 2 */}
                 <div className={`results-team ${currentTeamIndex === 1 ? 'results-team--active' : 'results-team--inactive'}`}>
                   <div className={`results-team-name ${
-                    teams[1].color === 'pink' ? 'text-neon-pink' : 'text-neon-cyan'
+                    teams[1].color === 'pink' ? 'text-neon-pink' : 'text-neon-blue'
                   }`}>
                     {teams[1].name}
                   </div>
                   <div className={`results-team-score ${
-                    teams[1].color === 'pink' ? 'text-neon-pink' : 'text-neon-cyan'
+                    teams[1].color === 'pink' ? 'text-neon-pink' : 'text-neon-blue'
                   }`}>
                     {teams[1].score}
                   </div>
@@ -149,7 +149,7 @@ export function ResultsPage() {
                 <span className={`results-team-badge ${
                   currentTeam?.color === 'pink'
                     ? 'bg-neon-pink/20 text-neon-pink'
-                    : 'bg-neon-cyan/20 text-neon-cyan'
+                    : 'bg-neon-blue/20 text-neon-blue'
                 }`}>
                   {currentTeam?.name} just played
                 </span>
@@ -289,7 +289,7 @@ export function ResultsPage() {
                 onClick={handleNextTurn}
                 className={`results-btn-team ${
                   currentTeamIndex === 0
-                    ? 'bg-neon-cyan shadow-lg shadow-neon-cyan/30'
+                    ? 'bg-neon-blue shadow-lg shadow-neon-blue/30'
                     : 'bg-neon-pink shadow-lg shadow-neon-pink/30'
                 }`}
               >

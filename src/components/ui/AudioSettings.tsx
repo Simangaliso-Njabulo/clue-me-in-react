@@ -27,7 +27,7 @@ export function AudioSettings({ compact = false }: AudioSettingsProps) {
         }}
         className={`p-3 rounded-xl transition-all ${
           settings.enabled
-            ? 'bg-neon-cyan/20 text-neon-cyan border border-neon-cyan/30'
+            ? 'bg-neon-blue/20 text-neon-blue border border-neon-blue/30'
             : 'bg-bg-tertiary text-text-muted border border-white/10'
         }`}
         title={settings.enabled ? 'Mute sounds' : 'Unmute sounds'}
@@ -50,7 +50,7 @@ export function AudioSettings({ compact = false }: AudioSettingsProps) {
   return (
     <GlassCard variant="elevated" neonBorder="cyan" className="p-6 w-full max-w-sm">
       <h3 className="font-display font-bold text-lg text-text-primary mb-4 flex items-center gap-2">
-        <span className="text-neon-cyan">Sound Settings</span>
+        <span className="text-neon-blue">Sound Settings</span>
       </h3>
 
       {/* Sound Toggle */}
@@ -80,7 +80,7 @@ export function AudioSettings({ compact = false }: AudioSettingsProps) {
         <div>
           <div className="flex justify-between mb-2">
             <label className="text-sm text-text-secondary">Master Volume</label>
-            <span className="text-sm text-neon-cyan">{Math.round(settings.masterVolume * 100)}%</span>
+            <span className="text-sm text-neon-blue">{Math.round(settings.masterVolume * 100)}%</span>
           </div>
           <input
             type="range"
@@ -92,8 +92,8 @@ export function AudioSettings({ compact = false }: AudioSettingsProps) {
             disabled={!settings.enabled}
             className="w-full h-2 bg-bg-tertiary rounded-full appearance-none cursor-pointer
               [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4
-              [&::-webkit-slider-thumb]:bg-neon-cyan [&::-webkit-slider-thumb]:rounded-full
-              [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(0,245,255,0.5)]
+              [&::-webkit-slider-thumb]:bg-neon-blue [&::-webkit-slider-thumb]:rounded-full
+              [&::-webkit-slider-thumb]:shadow-[0_0_8px_rgba(79,110,247,0.5)]
               [&::-webkit-slider-thumb]:cursor-pointer
               disabled:opacity-50 disabled:cursor-not-allowed"
           />
@@ -103,7 +103,7 @@ export function AudioSettings({ compact = false }: AudioSettingsProps) {
         <div>
           <div className="flex justify-between mb-2">
             <label className="text-sm text-text-secondary">SFX Volume</label>
-            <span className="text-sm text-neon-cyan">{Math.round(settings.sfxVolume * 100)}%</span>
+            <span className="text-sm text-neon-blue">{Math.round(settings.sfxVolume * 100)}%</span>
           </div>
           <input
             type="range"
@@ -115,8 +115,8 @@ export function AudioSettings({ compact = false }: AudioSettingsProps) {
             disabled={!settings.enabled}
             className="w-full h-2 bg-bg-tertiary rounded-full appearance-none cursor-pointer
               [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4
-              [&::-webkit-slider-thumb]:bg-neon-cyan [&::-webkit-slider-thumb]:rounded-full
-              [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(0,245,255,0.5)]
+              [&::-webkit-slider-thumb]:bg-neon-blue [&::-webkit-slider-thumb]:rounded-full
+              [&::-webkit-slider-thumb]:shadow-[0_0_8px_rgba(79,110,247,0.5)]
               [&::-webkit-slider-thumb]:cursor-pointer
               disabled:opacity-50 disabled:cursor-not-allowed"
           />
@@ -129,9 +129,9 @@ export function AudioSettings({ compact = false }: AudioSettingsProps) {
         whileTap={{ scale: 0.98 }}
         onClick={() => play('correct')}
         disabled={!settings.enabled}
-        className="w-full mt-6 py-2 px-4 rounded-lg bg-neon-purple/20 text-neon-purple
-          border border-neon-purple/30 font-display text-sm
-          hover:bg-neon-purple/30 transition-colors
+        className="w-full mt-6 py-2 px-4 rounded-lg bg-neon-blue/20 text-neon-blue
+          border border-neon-blue/30 font-display text-sm
+          hover:bg-neon-blue/30 transition-colors
           disabled:opacity-50 disabled:cursor-not-allowed"
       >
         Test Sound

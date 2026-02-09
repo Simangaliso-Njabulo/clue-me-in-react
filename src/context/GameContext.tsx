@@ -1,6 +1,6 @@
 import { createContext, useContext, useReducer, useCallback, useEffect, useRef } from 'react';
 import type { ReactNode } from 'react';
-import type { GameState, GameAction, GameMode, Difficulty, Team } from '../types/game';
+import type { GameState, GameAction, GameMode, Difficulty, Team, WordPack } from '../types/game';
 import { TIMER_CONFIG, GAME_MODES } from '../types/game';
 
 // Utility to shuffle array (Fisher-Yates)
@@ -32,6 +32,7 @@ function getDefaultTimeForMode(mode: GameMode): number {
 
 const initialState: GameState = {
   status: 'idle',
+  wordPack: 'mzansi',
   gameMode: 'classic',
   difficulty: 'all',
   totalTime: TIMER_CONFIG.DEFAULT_TIME,
@@ -53,6 +54,23 @@ const initialState: GameState = {
 
 function gameReducer(state: GameState, action: GameAction): GameState {
   switch (action.type) {
+    case 'SET_WORD_PACK':
+      return {
+        ...state,
+        wordPack: action.payload,
+        // Reset category/word state when switching packs
+        categories: [],
+        selectedCategory: '',
+        availableWords: [],
+        currentWord: '',
+        correctWords: [],
+        skippedWords: [],
+        currentStreak: 0,
+        maxStreak: 0,
+        skipCount: 0,
+        status: 'idle',
+      };
+
     case 'SET_CATEGORIES':
       return { ...state, categories: action.payload };
 
@@ -298,6 +316,26 @@ function gameReducer(state: GameState, action: GameAction): GameState {
       };
     }
 
+    case 'RESTART_GAME': {
+      // Restart with only unplayed words (exclude already shown ones)
+      const freshWords = [state.currentWord, ...state.availableWords].filter(Boolean);
+      const shuffled = shuffleArray(freshWords);
+      const { word, remaining } = getNextWord(shuffled);
+
+      return {
+        ...state,
+        status: 'idle',
+        remainingTime: state.totalTime,
+        availableWords: remaining,
+        currentWord: word,
+        correctWords: [],
+        skippedWords: [],
+        currentStreak: 0,
+        maxStreak: 0,
+        skipCount: 0,
+      };
+    }
+
     case 'TOGGLE_SOUND':
       return { ...state, soundEnabled: !state.soundEnabled };
 
@@ -310,6 +348,7 @@ interface GameContextValue {
   state: GameState;
   dispatch: React.Dispatch<GameAction>;
   // Convenience methods
+  setWordPack: (pack: WordPack) => void;
   selectCategory: (category: string, words: string[]) => void;
   setGameMode: (mode: GameMode) => void;
   setDifficulty: (difficulty: Difficulty) => void;
@@ -325,6 +364,7 @@ interface GameContextValue {
   increaseTime: () => void;
   decreaseTime: () => void;
   resetGame: () => void;
+  restartGame: () => void;
   toggleSound: () => void;
 }
 
@@ -353,6 +393,10 @@ export function GameProvider({ children }: { children: ReactNode }) {
       }
     };
   }, [state.status, state.gameMode]);
+
+  const setWordPack = useCallback((pack: WordPack) => {
+    dispatch({ type: 'SET_WORD_PACK', payload: pack });
+  }, []);
 
   const selectCategory = useCallback((category: string, words: string[]) => {
     dispatch({ type: 'SELECT_CATEGORY', payload: { category, words } });
@@ -420,6 +464,10 @@ export function GameProvider({ children }: { children: ReactNode }) {
     dispatch({ type: 'RESET_GAME' });
   }, []);
 
+  const restartGame = useCallback(() => {
+    dispatch({ type: 'RESTART_GAME' });
+  }, []);
+
   const toggleSound = useCallback(() => {
     dispatch({ type: 'TOGGLE_SOUND' });
   }, []);
@@ -427,6 +475,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
   const value: GameContextValue = {
     state,
     dispatch,
+    setWordPack,
     selectCategory,
     setGameMode,
     setDifficulty,
@@ -442,6 +491,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
     increaseTime,
     decreaseTime,
     resetGame,
+    restartGame,
     toggleSound,
   };
 

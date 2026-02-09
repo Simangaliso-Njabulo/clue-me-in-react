@@ -60,7 +60,7 @@ export function WordCard({ direction }: WordCardProps) {
   const getNeonBorder = () => {
     if (isDangerTime) return 'pink' as const;
     if (isLowTime) return 'yellow' as const;
-    return 'purple' as const;
+    return 'cyan' as const;
   };
 
   return (
@@ -68,14 +68,14 @@ export function WordCard({ direction }: WordCardProps) {
       variant="elevated"
       neonBorder={getNeonBorder()}
       className={`w-full h-48 sm:h-56 md:h-64 flex items-center justify-center
-        ${isDangerTime ? 'shadow-[0_0_40px_rgba(255,45,149,0.4)]' : ''}
-        ${isLowTime && !isDangerTime ? 'shadow-[0_0_30px_rgba(255,255,0,0.25)]' : ''}
+        ${isDangerTime ? 'shadow-[0_0_30px_rgba(244,114,182,0.3)]' : ''}
+        ${isLowTime && !isDangerTime ? 'shadow-[0_0_24px_rgba(251,191,36,0.2)]' : ''}
       `}
       animate={isDangerTime ? {
         boxShadow: [
-          '0 0 30px rgba(255, 45, 149, 0.25)',
-          '0 0 60px rgba(255, 45, 149, 0.5)',
-          '0 0 30px rgba(255, 45, 149, 0.25)',
+          '0 0 20px rgba(244, 114, 182, 0.2)',
+          '0 0 40px rgba(244, 114, 182, 0.35)',
+          '0 0 20px rgba(244, 114, 182, 0.2)',
         ],
       } : {}}
       transition={isDangerTime ? { repeat: Infinity, duration: 0.5 } : {}}

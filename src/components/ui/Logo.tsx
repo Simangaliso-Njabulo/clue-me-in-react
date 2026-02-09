@@ -16,14 +16,14 @@ export function Logo({ size = 'md', animate = true, showTagline = false }: LogoP
   const { text, tagline } = sizes[size];
 
   const letters = [
-    { char: 'W', color: 'text-neon-pink', delay: 0 },
-    { char: 'O', color: 'text-neon-pink', delay: 0.1 },
-    { char: 'R', color: 'text-neon-pink', delay: 0.2 },
-    { char: 'D', color: 'text-neon-pink', delay: 0.3 },
-    { char: 'Z', color: 'text-neon-yellow', delay: 0.4, special: true },
-    { char: 'A', color: 'text-neon-cyan', delay: 0.5 },
-    { char: 'P', color: 'text-neon-cyan', delay: 0.6 },
-    { char: 'P', color: 'text-neon-cyan', delay: 0.7 },
+    { char: 'W', color: 'text-text-primary', delay: 0 },
+    { char: 'O', color: 'text-text-primary', delay: 0.1 },
+    { char: 'R', color: 'text-text-primary', delay: 0.2 },
+    { char: 'D', color: 'text-text-primary', delay: 0.3 },
+    { char: 'Z', color: 'text-neon-blue', delay: 0.4, special: true },
+    { char: 'A', color: 'text-text-primary', delay: 0.5 },
+    { char: 'P', color: 'text-text-primary', delay: 0.6 },
+    { char: 'P', color: 'text-text-primary', delay: 0.7 },
   ];
 
   return (
@@ -40,7 +40,7 @@ export function Logo({ size = 'md', animate = true, showTagline = false }: LogoP
             {letter.special ? (
               <motion.span
                 animate={animate ? {
-                  opacity: [1, 0.8, 1, 1, 0.9, 1],
+                  opacity: [1, 0.9, 1],
                 } : undefined}
                 transition={animate ? {
                   duration: 3,
@@ -48,7 +48,7 @@ export function Logo({ size = 'md', animate = true, showTagline = false }: LogoP
                 } : undefined}
                 className="inline-block"
                 style={{
-                  textShadow: '0 0 10px #ffff00, 0 0 20px #ffff00, 0 0 40px #ffff00',
+                  textShadow: '0 0 8px rgba(79, 110, 247, 0.6), 0 0 16px rgba(79, 110, 247, 0.3)',
                 }}
               >
                 {letter.char}

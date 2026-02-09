@@ -31,7 +31,7 @@ export function Timer() {
   const timerState = getTimerState();
 
   const timerClasses = {
-    normal: 'text-neon-cyan',
+    normal: 'text-neon-blue',
     warning: 'text-neon-yellow',
     danger: 'text-neon-pink',
   };
@@ -52,7 +52,7 @@ export function Timer() {
           className={`text-sm font-display font-bold px-4 py-1 rounded-full ${
             currentTeamColor === 'pink'
               ? 'bg-neon-pink/20 text-neon-pink border border-neon-pink/30'
-              : 'bg-neon-cyan/20 text-neon-cyan border border-neon-cyan/30'
+              : 'bg-neon-blue/20 text-neon-blue border border-neon-blue/30'
           }`}
         >
           {teams[currentTeamIndex].name}'s Turn
@@ -103,7 +103,7 @@ export function Timer() {
                   ? 'var(--color-neon-pink)'
                   : timerState === 'warning'
                     ? 'var(--color-neon-yellow)'
-                    : 'var(--color-neon-cyan)'
+                    : 'var(--color-neon-blue)'
               }
               strokeWidth="8"
               strokeLinecap="round"

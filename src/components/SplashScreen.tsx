@@ -22,8 +22,8 @@ export function SplashScreen({ isVisible, onComplete }: SplashScreenProps) {
               className="absolute inset-0 opacity-10"
               style={{
                 backgroundImage: `
-                  linear-gradient(rgba(176, 38, 255, 0.3) 1px, transparent 1px),
-                  linear-gradient(90deg, rgba(176, 38, 255, 0.3) 1px, transparent 1px)
+                  linear-gradient(rgba(79, 110, 247, 0.2) 1px, transparent 1px),
+                  linear-gradient(90deg, rgba(79, 110, 247, 0.2) 1px, transparent 1px)
                 `,
                 backgroundSize: '50px 50px',
               }}
@@ -36,7 +36,7 @@ export function SplashScreen({ isVisible, onComplete }: SplashScreenProps) {
                 opacity: [0.3, 0.5, 0.3],
               }}
               transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-              className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-neon-pink/20 blur-3xl"
+              className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-neon-blue/10 blur-3xl"
             />
             <motion.div
               animate={{
@@ -44,7 +44,7 @@ export function SplashScreen({ isVisible, onComplete }: SplashScreenProps) {
                 opacity: [0.3, 0.5, 0.3],
               }}
               transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-              className="absolute bottom-1/4 right-1/4 w-64 h-64 rounded-full bg-neon-cyan/20 blur-3xl"
+              className="absolute bottom-1/4 right-1/4 w-64 h-64 rounded-full bg-neon-blue/20 blur-3xl"
             />
           </div>
 
@@ -78,7 +78,7 @@ export function SplashScreen({ isVisible, onComplete }: SplashScreenProps) {
                     repeat: Infinity,
                     delay: i * 0.2,
                   }}
-                  className="w-2 h-2 rounded-full bg-neon-purple"
+                  className="w-2 h-2 rounded-full bg-neon-blue"
                 />
               ))}
             </div>

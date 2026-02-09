@@ -12,28 +12,28 @@ interface NeonButtonProps extends Omit<HTMLMotionProps<'button'>, 'children'> {
 
 const variants = {
   primary: {
-    bg: 'bg-neon-purple',
-    hover: 'hover:bg-neon-purple-hover',
-    glow: 'shadow-[0_4px_20px_rgba(176,38,255,0.4)]',
-    hoverGlow: '0 8px 30px rgba(176, 38, 255, 0.6)',
+    bg: 'bg-neon-blue',
+    hover: 'hover:bg-neon-blue-hover',
+    glow: 'shadow-[0_4px_16px_rgba(79,110,247,0.3)]',
+    hoverGlow: '0 8px 24px rgba(79, 110, 247, 0.4)',
     text: 'text-white',
-    border: 'border-neon-purple/50',
+    border: 'border-neon-blue/40',
   },
   success: {
     bg: 'bg-neon-green',
     hover: 'hover:bg-neon-green-hover',
-    glow: 'shadow-[0_4px_20px_rgba(57,255,20,0.4)]',
-    hoverGlow: '0 8px 30px rgba(57, 255, 20, 0.6)',
+    glow: 'shadow-[0_4px_16px_rgba(52,211,153,0.3)]',
+    hoverGlow: '0 8px 24px rgba(52, 211, 153, 0.4)',
     text: 'text-bg-primary',
-    border: 'border-neon-green/50',
+    border: 'border-neon-green/40',
   },
   danger: {
     bg: 'bg-neon-pink',
     hover: 'hover:bg-neon-pink-hover',
-    glow: 'shadow-[0_4px_20px_rgba(255,45,149,0.4)]',
-    hoverGlow: '0 8px 30px rgba(255, 45, 149, 0.6)',
+    glow: 'shadow-[0_4px_16px_rgba(244,114,182,0.3)]',
+    hoverGlow: '0 8px 24px rgba(244, 114, 182, 0.4)',
     text: 'text-white',
-    border: 'border-neon-pink/50',
+    border: 'border-neon-pink/40',
   },
   secondary: {
     bg: 'bg-bg-tertiary',
@@ -41,7 +41,7 @@ const variants = {
     glow: '',
     hoverGlow: '0 4px 15px rgba(0, 0, 0, 0.3)',
     text: 'text-text-primary',
-    border: 'border-white/10',
+    border: 'border-white/8',
   },
 };
 
@@ -91,11 +91,11 @@ export function NeonButton({
       `}
       {...props}
     >
-      {/* 3D effect - top highlight */}
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent rounded-t-xl" />
+      {/* Top highlight */}
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent rounded-t-xl" />
 
-      {/* 3D effect - bottom shadow */}
-      <div className="absolute inset-x-0 bottom-0 h-1 bg-black/20 rounded-b-xl" />
+      {/* Bottom shadow */}
+      <div className="absolute inset-x-0 bottom-0 h-1 bg-black/15 rounded-b-xl" />
 
       {/* Content */}
       <span className="relative z-10">{children}</span>

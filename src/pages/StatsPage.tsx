@@ -39,9 +39,9 @@ export function StatsPage() {
               <StatItem label="Words Skipped" value={stats.totalWordsSkipped} icon="✕" color="text-neon-pink" />
               <StatItem label="Accuracy" value={`${accuracy}%`} icon="🎯" color="text-neon-yellow" />
               <StatItem label="Best Streak" value={stats.bestStreak} icon="🔥" color="text-neon-yellow" />
-              <StatItem label="Perfect Games" value={stats.perfectGames} icon="✨" color="text-neon-purple" />
+              <StatItem label="Perfect Games" value={stats.perfectGames} icon="✨" color="text-neon-blue" />
               <StatItem label="Play Time" value={formatPlayTime(stats.totalPlayTime)} icon="⏱️" />
-              <StatItem label="Achievements" value={`${unlockedAchievements.length}/11`} icon="🏆" color="text-neon-cyan" />
+              <StatItem label="Achievements" value={`${unlockedAchievements.length}/11`} icon="🏆" color="text-neon-blue" />
             </div>
           </GlassCard>
         </motion.div>

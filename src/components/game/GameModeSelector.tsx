@@ -32,7 +32,7 @@ export function GameModeSelector({ compact = false }: GameModeSelectorProps) {
               onClick={() => handleModeSelect(mode.id)}
               className={`flex-shrink-0 px-4 py-2 rounded-xl font-display text-sm transition-all
                 ${isSelected
-                  ? 'bg-neon-purple text-white shadow-lg shadow-neon-purple/30'
+                  ? 'bg-neon-blue text-white shadow-lg shadow-neon-blue/30'
                   : 'bg-bg-tertiary/50 text-text-secondary hover:bg-bg-tertiary hover:text-text-primary'
                 }
               `}
@@ -55,12 +55,6 @@ export function GameModeSelector({ compact = false }: GameModeSelectorProps) {
       <div className="grid grid-cols-2 gap-3">
         {GAME_MODES.map((mode) => {
           const isSelected = state.gameMode === mode.id;
-          const neonColor = isSelected
-            ? mode.id === 'classic' ? 'purple' as const
-              : mode.id === 'speed' ? 'yellow' as const
-              : mode.id === 'endless' ? 'cyan' as const
-              : 'pink' as const
-            : 'none' as const;
 
           return (
             <motion.div
@@ -70,17 +64,17 @@ export function GameModeSelector({ compact = false }: GameModeSelectorProps) {
             >
               <GlassCard
                 variant={isSelected ? 'elevated' : 'default'}
-                neonBorder={neonColor}
+                neonBorder={isSelected ? 'cyan' : 'none'}
                 hover
                 className={`p-4 cursor-pointer transition-all ${
-                  isSelected ? 'ring-2 ring-neon-purple/50' : ''
+                  isSelected ? 'ring-2 ring-neon-blue/50' : ''
                 }`}
                 onClick={() => handleModeSelect(mode.id)}
               >
                 <div className="text-center">
                   <span className="text-3xl mb-2 block">{mode.icon}</span>
                   <h4 className={`font-display font-bold text-base mb-1 ${
-                    isSelected ? 'text-neon-purple' : 'text-text-primary'
+                    isSelected ? 'text-neon-blue' : 'text-text-primary'
                   }`}>
                     {mode.name}
                   </h4>

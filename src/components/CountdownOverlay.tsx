@@ -55,7 +55,7 @@ export function CountdownOverlay() {
                 stiffness: 400,
                 damping: 25,
               }}
-              className={`text-center ${typeof count === 'string' ? 'text-neon-green' : 'text-neon-cyan'}`}
+              className={`text-center ${typeof count === 'string' ? 'text-neon-green' : 'text-neon-blue'}`}
             >
               <span className="font-display text-[12rem] sm:text-[16rem] font-bold leading-none drop-shadow-2xl">
                 {count}
@@ -65,7 +65,7 @@ export function CountdownOverlay() {
 
           {/* Background pulse effect */}
           <motion.div
-            className="absolute inset-0 bg-accent-purple/10"
+            className="absolute inset-0 bg-neon-blue/10"
             animate={{
               opacity: [0, 0.2, 0],
             }}

@@ -8,13 +8,13 @@ import { WordCard } from '../components/game/WordCard';
 import { ActionButtons } from '../components/game/ActionButtons';
 import { ScoreDisplay } from '../components/game/ScoreDisplay';
 import { CountdownOverlay } from '../components/CountdownOverlay';
-import { loadAllWords } from '../services/wordsService';
+import { loadWordPack } from '../services/wordsService';
 import { CATEGORY_ICONS } from '../types/game';
 import type { WordsData } from '../types/game';
 
 export function PlayPage() {
   const navigate = useNavigate();
-  const { state, dispatch, selectCategory, startCountdown, pauseGame, resumeGame } = useGame();
+  const { state, dispatch, selectCategory, startCountdown, pauseGame, resumeGame, restartGame } = useGame();
   const { play } = useSound();
   const [words, setWords] = useState<WordsData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -42,9 +42,9 @@ export function PlayPage() {
     }
   }, [state.status]);
 
-  // Load words on mount
+  // Load words when pack changes
   useEffect(() => {
-    loadAllWords()
+    loadWordPack(state.wordPack)
       .then((data) => {
         setWords(data);
         dispatch({ type: 'SET_CATEGORIES', payload: Object.keys(data) });
@@ -55,7 +55,7 @@ export function PlayPage() {
       .finally(() => {
         setLoading(false);
       });
-  }, [dispatch]);
+  }, [dispatch, state.wordPack]);
 
   // Navigate to results when game ends during this session
   useEffect(() => {
@@ -137,7 +137,7 @@ export function PlayPage() {
         <motion.div
           animate={{ rotate: 360 }}
           transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-          className="w-16 h-16 border-4 border-neon-cyan border-t-transparent rounded-full"
+          className="w-16 h-16 border-4 border-neon-blue border-t-transparent rounded-full"
         />
       </div>
     );
@@ -286,32 +286,58 @@ export function PlayPage() {
             transition={{ delay: 0.3 }}
             className="play-actions-wrapper"
           >
-            {/* Start Round button when idle */}
+            {/* Start Round + Restart when idle */}
             {canStart && (
-              <motion.button
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                whileHover={{ scale: 1.05, boxShadow: '0 16px 32px rgba(57, 255, 20, 0.4)' }}
-                whileTap={{ scale: 0.95 }}
-                onClick={startCountdown}
-                className="play-start-btn"
-              >
-                Start Round
-              </motion.button>
+              <div className="play-idle-actions">
+                <motion.button
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  whileHover={{ scale: 1.05, boxShadow: '0 16px 32px rgba(57, 255, 20, 0.4)' }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={startCountdown}
+                  className="play-start-btn"
+                >
+                  Start Round
+                </motion.button>
+                <motion.button
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.1 }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={restartGame}
+                  className="play-restart-btn"
+                >
+                  Restart
+                </motion.button>
+              </div>
             )}
 
-            {/* Paused overlay message */}
+            {/* Paused: Resume + Restart */}
             {isPaused && (
-              <motion.button
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={resumeGame}
-                className="play-resume-big-btn"
-              >
-                Resume
-              </motion.button>
+              <div className="play-paused-actions">
+                <motion.button
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={resumeGame}
+                  className="play-resume-big-btn"
+                >
+                  Resume
+                </motion.button>
+                <motion.button
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.1 }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={restartGame}
+                  className="play-restart-btn"
+                >
+                  Restart
+                </motion.button>
+              </div>
             )}
 
             {/* Action buttons during play */}
