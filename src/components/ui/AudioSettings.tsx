@@ -27,8 +27,8 @@ export function AudioSettings({ compact = false }: AudioSettingsProps) {
         }}
         className={`p-3 rounded-xl transition-all ${
           settings.enabled
-            ? 'bg-neon-blue/20 text-neon-blue border border-neon-blue/30'
-            : 'bg-bg-tertiary text-text-muted border border-white/10'
+            ? 'text-neon-blue'
+            : 'text-text-muted'
         }`}
         title={settings.enabled ? 'Mute sounds' : 'Unmute sounds'}
       >
@@ -93,7 +93,7 @@ export function AudioSettings({ compact = false }: AudioSettingsProps) {
             className="w-full h-2 bg-bg-tertiary rounded-full appearance-none cursor-pointer
               [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4
               [&::-webkit-slider-thumb]:bg-neon-blue [&::-webkit-slider-thumb]:rounded-full
-              [&::-webkit-slider-thumb]:shadow-[0_0_8px_rgba(79,110,247,0.5)]
+              [&::-webkit-slider-thumb]:shadow-[0_0_8px_rgba(56,189,248,0.5)]
               [&::-webkit-slider-thumb]:cursor-pointer
               disabled:opacity-50 disabled:cursor-not-allowed"
           />
@@ -116,7 +116,7 @@ export function AudioSettings({ compact = false }: AudioSettingsProps) {
             className="w-full h-2 bg-bg-tertiary rounded-full appearance-none cursor-pointer
               [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4
               [&::-webkit-slider-thumb]:bg-neon-blue [&::-webkit-slider-thumb]:rounded-full
-              [&::-webkit-slider-thumb]:shadow-[0_0_8px_rgba(79,110,247,0.5)]
+              [&::-webkit-slider-thumb]:shadow-[0_0_8px_rgba(56,189,248,0.5)]
               [&::-webkit-slider-thumb]:cursor-pointer
               disabled:opacity-50 disabled:cursor-not-allowed"
           />

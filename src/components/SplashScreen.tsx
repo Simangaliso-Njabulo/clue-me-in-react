@@ -22,8 +22,8 @@ export function SplashScreen({ isVisible, onComplete }: SplashScreenProps) {
               className="absolute inset-0 opacity-10"
               style={{
                 backgroundImage: `
-                  linear-gradient(rgba(79, 110, 247, 0.2) 1px, transparent 1px),
-                  linear-gradient(90deg, rgba(79, 110, 247, 0.2) 1px, transparent 1px)
+                  linear-gradient(rgba(56, 189, 248, 0.2) 1px, transparent 1px),
+                  linear-gradient(90deg, rgba(56, 189, 248, 0.2) 1px, transparent 1px)
                 `,
                 backgroundSize: '50px 50px',
               }}

@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { useGame } from '../../context/GameContext';
 import { useSound } from '../../context/SoundContext';
+import { Icon } from '../ui/Icon';
 import { WORD_PACKS } from '../../types/game';
 import type { WordPack } from '../../types/game';
 
@@ -31,10 +32,10 @@ export function WordPackSelector() {
               className={`pack-card ${isSelected ? 'pack-card--selected' : ''}`}
               style={isSelected ? {
                 borderColor: ACCENT_COLOR,
-                boxShadow: `0 0 16px rgba(79, 110, 247, 0.2), 0 0 32px rgba(79, 110, 247, 0.08)`,
+                boxShadow: `0 0 16px rgba(56, 189, 248, 0.2), 0 0 32px rgba(56, 189, 248, 0.08)`,
               } : undefined}
             >
-              <span className="pack-card-icon">{pack.icon}</span>
+              <span className="pack-card-icon"><Icon name={pack.icon} size={24} /></span>
               <span
                 className="pack-card-name"
                 style={isSelected ? { color: ACCENT_COLOR } : undefined}

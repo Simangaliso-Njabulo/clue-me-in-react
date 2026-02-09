@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import confetti from 'canvas-confetti';
 import { useGame } from '../context/GameContext';
 import { GlassCard } from '../components/ui/GlassCard';
+import { Icon } from '../components/ui/Icon';
 import { useAchievements } from '../hooks/useAchievements';
 
 export function ResultsPage() {
@@ -53,7 +54,7 @@ export function ResultsPage() {
         particleCount: count,
         spread: 70,
         origin: { y: 0.6 },
-        colors: ['#4f6ef7', '#6b85ff', '#34d399', '#f472b6', '#fbbf24'],
+        colors: ['#38bdf8', '#7dd3fc', '#34d399', '#f472b6', '#fbbf24'],
       });
 
       if (percentage >= 70) {
@@ -63,14 +64,14 @@ export function ResultsPage() {
             angle: 60,
             spread: 55,
             origin: { x: 0 },
-            colors: ['#4f6ef7', '#34d399'],
+            colors: ['#38bdf8', '#34d399'],
           });
           confetti({
             particleCount: 100,
             angle: 120,
             spread: 55,
             origin: { x: 1 },
-            colors: ['#6b85ff', '#fbbf24'],
+            colors: ['#7dd3fc', '#fbbf24'],
           });
         }, 300);
       }
@@ -187,7 +188,7 @@ export function ResultsPage() {
                 transition={{ delay: 0.25 + star * 0.1, type: 'spring' }}
                 className="results-star"
               >
-                {star <= stars ? '⭐' : '☆'}
+                <Icon name="star" size={28} className={star <= stars ? 'text-neon-yellow' : 'text-text-muted'} />
               </motion.span>
             ))}
           </motion.div>
@@ -213,7 +214,7 @@ export function ResultsPage() {
               transition={{ delay: 0.5 }}
               className="results-streak"
             >
-              🔥 Best streak: {maxStreak} in a row!
+              <Icon name="flame" size={16} className="inline-block align-middle mr-1" /> Best streak: {maxStreak} in a row!
             </motion.p>
           )}
         </motion.div>
@@ -228,7 +229,7 @@ export function ResultsPage() {
           {/* Correct Words */}
           <div className="results-word-card">
             <h3 className="results-word-card-title results-word-card-title--correct">
-              <span>✓</span> Correct ({correctWords.length})
+              <Icon name="check" size={16} /> Correct ({correctWords.length})
             </h3>
             <ul className="results-word-list">
               {correctWords.map((word, index) => (
@@ -239,7 +240,7 @@ export function ResultsPage() {
                   transition={{ delay: 0.5 + index * 0.02 }}
                   className="results-word-item"
                 >
-                  <span className="results-word-icon--correct">✓</span>
+                  <span className="results-word-icon--correct"><Icon name="check" size={12} /></span>
                   <span className="results-word-name">{word}</span>
                 </motion.li>
               ))}
@@ -252,7 +253,7 @@ export function ResultsPage() {
           {/* Skipped Words */}
           <div className="results-word-card">
             <h3 className="results-word-card-title results-word-card-title--skipped">
-              <span>✕</span> Skipped ({skippedWords.length})
+              <Icon name="x" size={16} /> Skipped ({skippedWords.length})
             </h3>
             <ul className="results-word-list">
               {skippedWords.map((word, index) => (
@@ -263,7 +264,7 @@ export function ResultsPage() {
                   transition={{ delay: 0.5 + index * 0.02 }}
                   className="results-word-item"
                 >
-                  <span className="results-word-icon--skipped">✕</span>
+                  <span className="results-word-icon--skipped"><Icon name="x" size={12} /></span>
                   <span className="results-word-name">{word}</span>
                 </motion.li>
               ))}
@@ -343,7 +344,7 @@ export function ResultsPage() {
               onClick={dismissToast}
               className="results-toast-btn"
             >
-              <span className="results-toast-icon">{pendingToasts[0].icon}</span>
+              <span className="results-toast-icon"><Icon name={pendingToasts[0].icon} size={28} /></span>
               <div className="results-toast-content">
                 <div className="results-toast-label">
                   Achievement Unlocked!

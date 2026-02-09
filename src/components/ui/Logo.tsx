@@ -48,7 +48,7 @@ export function Logo({ size = 'md', animate = true, showTagline = false }: LogoP
                 } : undefined}
                 className="inline-block"
                 style={{
-                  textShadow: '0 0 8px rgba(79, 110, 247, 0.6), 0 0 16px rgba(79, 110, 247, 0.3)',
+                  textShadow: '0 0 8px rgba(56, 189, 248, 0.6), 0 0 16px rgba(56, 189, 248, 0.3)',
                 }}
               >
                 {letter.char}

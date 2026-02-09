@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useGame } from '../../context/GameContext';
+import { Icon } from '../ui/Icon';
 
 export function ScoreDisplay() {
   const { state } = useGame();
@@ -40,7 +41,7 @@ export function ScoreDisplay() {
               transition={{ repeat: Infinity, duration: 0.5 }}
               className="text-lg"
             >
-              🔥
+              <Icon name="flame" size={18} />
             </motion.span>
             <span className="font-bold">x{currentStreak}</span>
           </motion.div>

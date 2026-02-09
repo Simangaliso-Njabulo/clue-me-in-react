@@ -14,8 +14,8 @@ const variants = {
   primary: {
     bg: 'bg-neon-blue',
     hover: 'hover:bg-neon-blue-hover',
-    glow: 'shadow-[0_4px_16px_rgba(79,110,247,0.3)]',
-    hoverGlow: '0 8px 24px rgba(79, 110, 247, 0.4)',
+    glow: 'shadow-[0_4px_16px_rgba(56,189,248,0.3)]',
+    hoverGlow: '0 8px 24px rgba(56, 189, 248, 0.4)',
     text: 'text-white',
     border: 'border-neon-blue/40',
   },

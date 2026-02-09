@@ -2,17 +2,18 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { AudioSettings } from "../components/ui/AudioSettings";
+import { Icon } from "../components/ui/Icon";
 import { WordPackSelector } from "../components/game/WordPackSelector";
 import { GameModeSelector } from "../components/game/GameModeSelector";
 import { TeamSetup } from "../components/game/TeamSetup";
 import { useGame } from "../context/GameContext";
 
 const steps = [
-  { number: 1, title: "Pick a Pack", description: "Mzansi, General, Industry, Bible, or Kids", icon: "📦" },
-  { number: 2, title: "Choose Mode", description: "Classic, Speed, Endless, or Team", icon: "🎮" },
-  { number: 3, title: "Pick Category", description: "Select from the pack's categories", icon: "📂" },
-  { number: 4, title: "Guess Words", description: "Tap Correct or Skip for each word", icon: "🎯" },
-  { number: 5, title: "See Results", description: "Check your score when done", icon: "🏆" },
+  { number: 1, title: "Pick a Pack", description: "Mzansi, General, Industry, Bible, or Kids", icon: "package" },
+  { number: 2, title: "Choose Mode", description: "Classic, Speed, Endless, or Team", icon: "gamepad" },
+  { number: 3, title: "Pick Category", description: "Select from the pack's categories", icon: "folder-open" },
+  { number: 4, title: "Guess Words", description: "Tap Correct or Skip for each word", icon: "target" },
+  { number: 5, title: "See Results", description: "Check your score when done", icon: "trophy" },
 ];
 
 export function HomePage() {
@@ -42,7 +43,7 @@ export function HomePage() {
           className="home-header-actions"
         >
           <Link to="/stats" className="home-stats-link" title="Stats & Achievements">
-            📊
+            <Icon name="bar-chart" size={18} />
           </Link>
           <AudioSettings compact />
         </motion.div>
@@ -145,7 +146,7 @@ export function HomePage() {
                 <div className="home-steps-list">
                   {steps.map((step) => (
                     <div key={step.number} className="home-step">
-                      <div className="home-step-icon">{step.icon}</div>
+                      <div className="home-step-icon"><Icon name={step.icon} size={18} /></div>
                       <div className="home-step-text">
                         <h4 className="home-step-title">{step.title}</h4>
                         <p className="home-step-desc">{step.description}</p>

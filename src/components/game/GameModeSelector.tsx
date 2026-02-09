@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { useGame } from '../../context/GameContext';
 import { useSound } from '../../context/SoundContext';
-import { GlassCard } from '../ui/GlassCard';
+import { Icon } from '../ui/Icon';
 import { GAME_MODES } from '../../types/game';
 import type { GameMode } from '../../types/game';
 
@@ -19,7 +19,6 @@ export function GameModeSelector({ compact = false }: GameModeSelectorProps) {
   };
 
   if (compact) {
-    // Compact horizontal selector
     return (
       <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
         {GAME_MODES.map((mode) => {
@@ -37,7 +36,7 @@ export function GameModeSelector({ compact = false }: GameModeSelectorProps) {
                 }
               `}
             >
-              <span className="mr-2">{mode.icon}</span>
+              <span className="mr-2 inline-flex align-middle"><Icon name={mode.icon} size={16} /></span>
               {mode.name}
             </motion.button>
           );
@@ -46,44 +45,24 @@ export function GameModeSelector({ compact = false }: GameModeSelectorProps) {
     );
   }
 
-  // Full card grid
   return (
-    <div className="space-y-4">
-      <h3 className="font-display font-bold text-lg text-text-primary">
-        Select Game Mode
-      </h3>
-      <div className="grid grid-cols-2 gap-3">
+    <div>
+      <h3 className="mode-grid-title">Select Game Mode</h3>
+      <div className="mode-grid">
         {GAME_MODES.map((mode) => {
           const isSelected = state.gameMode === mode.id;
-
           return (
-            <motion.div
+            <motion.button
               key={mode.id}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
+              onClick={() => handleModeSelect(mode.id)}
+              className={`mode-card ${isSelected ? 'mode-card--selected' : ''}`}
             >
-              <GlassCard
-                variant={isSelected ? 'elevated' : 'default'}
-                neonBorder={isSelected ? 'cyan' : 'none'}
-                hover
-                className={`p-4 cursor-pointer transition-all ${
-                  isSelected ? 'ring-2 ring-neon-blue/50' : ''
-                }`}
-                onClick={() => handleModeSelect(mode.id)}
-              >
-                <div className="text-center">
-                  <span className="text-3xl mb-2 block">{mode.icon}</span>
-                  <h4 className={`font-display font-bold text-base mb-1 ${
-                    isSelected ? 'text-neon-blue' : 'text-text-primary'
-                  }`}>
-                    {mode.name}
-                  </h4>
-                  <p className="text-xs text-text-secondary">
-                    {mode.description}
-                  </p>
-                </div>
-              </GlassCard>
-            </motion.div>
+              <span className="mode-card-icon"><Icon name={mode.icon} size={28} /></span>
+              <span className="mode-card-name">{mode.name}</span>
+              <span className="mode-card-desc">{mode.description}</span>
+            </motion.button>
           );
         })}
       </div>

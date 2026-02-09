@@ -11,9 +11,9 @@ interface Particle {
 }
 
 const COLORS = [
-  'rgba(79, 110, 247, 0.4)',   // blue primary
-  'rgba(99, 130, 255, 0.3)',   // blue lighter
-  'rgba(79, 110, 247, 0.25)',  // blue subtle
+  'rgba(56, 189, 248, 0.4)',   // blue primary
+  'rgba(125, 211, 252, 0.3)',  // blue lighter
+  'rgba(56, 189, 248, 0.25)',  // blue subtle
   'rgba(139, 146, 168, 0.2)',  // neutral muted
 ];
 

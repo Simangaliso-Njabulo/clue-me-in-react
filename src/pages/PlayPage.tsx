@@ -3,6 +3,7 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useGame } from '../context/GameContext';
 import { useSound } from '../context/SoundContext';
+import { Icon } from '../components/ui/Icon';
 import { Timer } from '../components/game/Timer';
 import { WordCard } from '../components/game/WordCard';
 import { ActionButtons } from '../components/game/ActionButtons';
@@ -166,7 +167,7 @@ export function PlayPage() {
             whileTap={{ scale: 0.95 }}
             className="play-back-btn"
           >
-            <span>←</span>
+            <Icon name="chevron-left" size={18} />
             <span className="hidden sm:inline">Back</span>
           </motion.button>
         </Link>
@@ -180,7 +181,7 @@ export function PlayPage() {
               disabled={!canChangeCategory}
               title={canChangeCategory ? 'Change category' : ''}
             >
-              <span>{CATEGORY_ICONS[state.selectedCategory] || '📝'}</span>
+              <Icon name={CATEGORY_ICONS[state.selectedCategory] || 'help-circle'} size={16} />
               <span>{state.selectedCategory}</span>
             </button>
           )}
@@ -197,7 +198,7 @@ export function PlayPage() {
                 className="play-pause-btn"
                 title="Pause game"
               >
-                ⏸
+                <Icon name="pause" size={18} />
               </motion.button>
             )}
             {isPaused && (
@@ -210,7 +211,7 @@ export function PlayPage() {
                 className="play-resume-btn"
                 title="Resume game"
               >
-                ▶
+                <Icon name="play" size={18} />
               </motion.button>
             )}
           </AnimatePresence>
@@ -230,7 +231,7 @@ export function PlayPage() {
           <h2 className="play-category-title">Choose a Category</h2>
           <div className="play-category-grid">
             {categories.map((category, index) => {
-              const icon = CATEGORY_ICONS[category] || '📝';
+              const icon = CATEGORY_ICONS[category] || 'help-circle';
               return (
                 <motion.button
                   key={category}
@@ -242,7 +243,7 @@ export function PlayPage() {
                   onClick={() => handleCategorySelect(category)}
                   className="play-category-card"
                 >
-                  <span className="play-category-card-icon">{icon}</span>
+                  <span className="play-category-card-icon"><Icon name={icon} size={28} /></span>
                   <span className="play-category-card-name">{category}</span>
                 </motion.button>
               );

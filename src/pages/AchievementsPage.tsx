@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { GlassCard } from '../components/ui/GlassCard';
+import { Icon } from '../components/ui/Icon';
 import { useAchievements } from '../hooks/useAchievements';
 
 export function AchievementsPage() {
@@ -68,7 +69,7 @@ export function AchievementsPage() {
                 >
                   <GlassCard neonBorder="green" className="p-3">
                     <div className="flex items-center gap-3">
-                      <span className="text-3xl">{achievement.icon}</span>
+                      <span className="text-3xl flex items-center"><Icon name={achievement.icon} size={28} /></span>
                       <div className="flex-1">
                         <div className="font-display font-bold text-text-primary">
                           {achievement.name}
@@ -77,7 +78,7 @@ export function AchievementsPage() {
                           {achievement.description}
                         </div>
                       </div>
-                      <span className="text-neon-green text-xl">✓</span>
+                      <span className="text-neon-green text-xl"><Icon name="check" size={20} /></span>
                     </div>
                   </GlassCard>
                 </motion.div>
@@ -106,7 +107,7 @@ export function AchievementsPage() {
                 >
                   <GlassCard className="p-3 opacity-60">
                     <div className="flex items-center gap-3">
-                      <span className="text-3xl grayscale">{achievement.icon}</span>
+                      <span className="text-3xl grayscale flex items-center"><Icon name={achievement.icon} size={28} /></span>
                       <div className="flex-1">
                         <div className="font-display font-bold text-text-muted">
                           {achievement.name}
@@ -115,7 +116,7 @@ export function AchievementsPage() {
                           {achievement.criteria}
                         </div>
                       </div>
-                      <span className="text-text-muted text-xl">🔒</span>
+                      <span className="text-text-muted text-xl"><Icon name="lock" size={20} /></span>
                     </div>
                   </GlassCard>
                 </motion.div>

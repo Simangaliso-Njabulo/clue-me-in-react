@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { useGame } from '../../context/GameContext';
+import { Icon } from '../ui/Icon';
 import { CATEGORY_ICONS } from '../../types/game';
 import type { WordsData } from '../../types/game';
 
@@ -32,7 +33,7 @@ export function CategorySelector({ words, compact = false }: CategorySelectorPro
           <option value="">Select Category</option>
           {categories.map((category) => (
             <option key={category} value={category}>
-              {CATEGORY_ICONS[category] || '📝'} {category}
+              {category}
             </option>
           ))}
         </select>
@@ -45,7 +46,7 @@ export function CategorySelector({ words, compact = false }: CategorySelectorPro
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
       {categories.map((category, index) => {
         const isSelected = selectedCategory === category;
-        const icon = CATEGORY_ICONS[category] || '📝';
+        const icon = CATEGORY_ICONS[category] || 'help-circle';
 
         return (
           <motion.button
@@ -65,7 +66,7 @@ export function CategorySelector({ words, compact = false }: CategorySelectorPro
               ${isDisabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
             `}
           >
-            <span className="text-3xl block mb-2">{icon}</span>
+            <span className="text-3xl block mb-2 flex justify-center"><Icon name={icon} size={28} /></span>
             <span className="text-sm font-medium line-clamp-2">{category}</span>
             {isSelected && (
               <motion.div

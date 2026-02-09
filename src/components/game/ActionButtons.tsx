@@ -2,6 +2,7 @@ import { useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { useGame } from '../../context/GameContext';
 import { useSound } from '../../context/SoundContext';
+import { Icon } from '../ui/Icon';
 
 interface ActionButtonsProps {
   onCorrect?: () => void;
@@ -71,7 +72,7 @@ export function ActionButtons({ onCorrect, onSkip }: ActionButtonsProps) {
           initial={false}
           animate={canInteract ? {} : { opacity: 0.5 }}
         >
-          ✕
+          <Icon name="x" size={32} strokeWidth={3} />
         </motion.span>
       </motion.button>
 
@@ -93,7 +94,7 @@ export function ActionButtons({ onCorrect, onSkip }: ActionButtonsProps) {
           initial={false}
           animate={canInteract ? {} : { opacity: 0.5 }}
         >
-          ✓
+          <Icon name="check" size={32} strokeWidth={3} />
         </motion.span>
       </motion.button>
     </div>

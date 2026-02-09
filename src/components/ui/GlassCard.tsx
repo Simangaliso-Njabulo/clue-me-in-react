@@ -31,8 +31,8 @@ const variants = {
 const neonBorders = {
   none: '',
   pink: 'border-neon-pink/25 shadow-[0_0_12px_rgba(244,114,182,0.15)]',
-  cyan: 'border-neon-blue/25 shadow-[0_0_12px_rgba(79,110,247,0.15)]',
-  purple: 'border-neon-blue/25 shadow-[0_0_12px_rgba(79,110,247,0.15)]',
+  cyan: 'border-neon-blue/25 shadow-[0_0_12px_rgba(56,189,248,0.15)]',
+  purple: 'border-neon-blue/25 shadow-[0_0_12px_rgba(56,189,248,0.15)]',
   green: 'border-neon-green/25 shadow-[0_0_12px_rgba(52,211,153,0.15)]',
   yellow: 'border-neon-yellow/25 shadow-[0_0_12px_rgba(251,191,36,0.15)]',
 };

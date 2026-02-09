@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useGame } from '../../context/GameContext';
 import { useSound } from '../../context/SoundContext';
 import { GlassCard } from '../ui/GlassCard';
+import { Icon } from '../ui/Icon';
 import { NeonButton } from '../ui/NeonButton';
 
 interface TeamSetupProps {
@@ -25,7 +26,7 @@ export function TeamSetup({ onComplete }: TeamSetupProps) {
   return (
     <GlassCard variant="elevated" neonBorder="cyan" className="team-setup">
       <h3 className="team-setup-title">
-        👥 Team Setup
+        <Icon name="users" size={20} className="inline-block align-middle mr-2" />Team Setup
       </h3>
 
       <form onSubmit={handleSubmit} className="team-setup-form">

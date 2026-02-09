@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { useGame } from '../../context/GameContext';
+import { Icon } from '../ui/Icon';
 import { GAME_MODES } from '../../types/game';
 
 function formatTime(seconds: number): string {
@@ -127,7 +128,7 @@ export function Timer() {
                   transition: { repeat: Infinity, duration: 0.5 }
                 } : {}}
               >
-                ♾️
+                <Icon name="infinity" size={36} />
               </motion.span>
               <span className={`text-xs font-mono ${timerClasses[timerState]}`}>
                 {skipsRemaining} skips left
@@ -169,7 +170,7 @@ export function Timer() {
           animate={{ opacity: 1 }}
           className="text-xs text-text-muted font-display"
         >
-          {modeConfig?.icon} {modeConfig?.name} Mode
+          {modeConfig && <Icon name={modeConfig.icon} size={14} className="inline-block align-middle mr-1" />}{modeConfig?.name} Mode
         </motion.div>
       )}
     </div>
