@@ -29,11 +29,9 @@ export function PlayPage() {
   const canStart = isIdle && !!state.currentWord;
   const canChangeCategory = isIdle;
 
-  // Reset game if returning from a finished game
+  // Reset category on mount so user always picks fresh
   useEffect(() => {
-    if (state.status === 'ended') {
-      dispatch({ type: 'RESET_GAME' });
-    }
+    dispatch({ type: 'CLEAR_CATEGORY' });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps -- only on mount
 
   // Track when the game actually starts playing this session
@@ -293,7 +291,7 @@ export function PlayPage() {
                 <motion.button
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  whileHover={{ scale: 1.05, boxShadow: '0 16px 32px rgba(57, 255, 20, 0.4)' }}
+                  whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={startCountdown}
                   className="play-start-btn"

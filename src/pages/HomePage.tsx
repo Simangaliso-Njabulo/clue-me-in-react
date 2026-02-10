@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AudioSettings } from "../components/ui/AudioSettings";
 import { Icon } from "../components/ui/Icon";
 import { WordPackSelector } from "../components/game/WordPackSelector";
@@ -12,16 +12,25 @@ const steps = [
   { number: 1, title: "Pick a Pack", description: "Mzansi, General, Industry, Bible, or Kids", icon: "package" },
   { number: 2, title: "Choose Mode", description: "Classic, Speed, Endless, or Team", icon: "gamepad" },
   { number: 3, title: "Pick Category", description: "Select from the pack's categories", icon: "folder-open" },
-  { number: 4, title: "Guess Words", description: "Tap Correct or Skip for each word", icon: "target" },
+  { number: 4, title: "Guess Words", description: "Tap Correct or Skip, or swipe right/left on mobile", icon: "target" },
   { number: 5, title: "See Results", description: "Check your score when done", icon: "trophy" },
 ];
 
 export function HomePage() {
   const { state } = useGame();
+  const navigate = useNavigate();
   const [showTeamSetup, setShowTeamSetup] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
 
   const needsTeamSetup = state.gameMode === "team" && !state.teams;
+
+  const handlePlayClick = () => {
+    if (needsTeamSetup) {
+      setShowTeamSetup(true);
+    } else {
+      navigate("/play");
+    }
+  };
 
   return (
     <div className="home-page">
@@ -51,18 +60,14 @@ export function HomePage() {
 
       {/* Main Content */}
       <main className="home-main">
-        {/* Hero Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="home-hero"
+          className="home-hero-subtitle"
         >
-          <h2 className="home-hero-title">Party Word Game</h2>
-          <p className="home-hero-subtitle">
-            Guess the words before time runs out! Perfect for parties and game nights.
-          </p>
-        </motion.div>
+          Guess the words before time runs out!
+        </motion.p>
 
         {/* Word Pack Selector */}
         <motion.div
@@ -85,33 +90,17 @@ export function HomePage() {
         </motion.div>
 
         {/* Play Button */}
-        <motion.div
+        <motion.button
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.2 }}
-          className="home-play-section"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={handlePlayClick}
+          className="home-play-btn"
         >
-          {needsTeamSetup ? (
-            <motion.button
-              whileHover={{ scale: 1.05, boxShadow: "0 16px 32px rgba(176, 38, 255, 0.5)" }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setShowTeamSetup(true)}
-              className="home-play-btn"
-            >
-              Setup Teams
-            </motion.button>
-          ) : (
-            <Link to="/play">
-              <motion.button
-                whileHover={{ scale: 1.05, boxShadow: "0 16px 32px rgba(176, 38, 255, 0.5)" }}
-                whileTap={{ scale: 0.95 }}
-                className="home-play-btn"
-              >
-                Play Now
-              </motion.button>
-            </Link>
-          )}
-        </motion.div>
+          Play Now
+        </motion.button>
 
         {/* How to Play Button */}
         <motion.button
@@ -179,7 +168,7 @@ export function HomePage() {
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.9, opacity: 0 }}
               >
-                <TeamSetup onComplete={() => setShowTeamSetup(false)} />
+                <TeamSetup onComplete={() => { setShowTeamSetup(false); navigate("/play"); }} />
                 <button
                   onClick={() => setShowTeamSetup(false)}
                   className="home-modal-cancel"
@@ -191,13 +180,6 @@ export function HomePage() {
           )}
         </AnimatePresence>
       </main>
-
-      {/* Footer */}
-      <footer className="home-footer">
-        <p className="home-footer-text">
-          Swipe right for correct, left for skip on mobile
-        </p>
-      </footer>
     </div>
   );
 }

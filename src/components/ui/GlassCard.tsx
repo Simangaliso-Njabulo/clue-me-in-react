@@ -12,19 +12,19 @@ interface GlassCardProps extends Omit<HTMLMotionProps<'div'>, 'children'> {
 
 const variants = {
   default: {
-    background: 'rgba(255, 255, 255, 0.05)',
-    border: 'rgba(255, 255, 255, 0.08)',
-    shadow: '0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.06)',
+    background: 'rgba(26, 32, 51, 0.85)',
+    border: 'rgba(255, 255, 255, 0.1)',
+    shadow: '0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.06)',
   },
   elevated: {
-    background: 'rgba(255, 255, 255, 0.07)',
-    border: 'rgba(255, 255, 255, 0.1)',
-    shadow: '0 12px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08)',
+    background: 'rgba(30, 37, 58, 0.9)',
+    border: 'rgba(255, 255, 255, 0.12)',
+    shadow: '0 12px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08)',
   },
   subtle: {
-    background: 'rgba(255, 255, 255, 0.03)',
-    border: 'rgba(255, 255, 255, 0.05)',
-    shadow: '0 4px 16px rgba(0, 0, 0, 0.2)',
+    background: 'rgba(20, 26, 42, 0.75)',
+    border: 'rgba(255, 255, 255, 0.07)',
+    shadow: '0 4px 16px rgba(0, 0, 0, 0.3)',
   },
 };
 

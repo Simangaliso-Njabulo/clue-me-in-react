@@ -336,6 +336,21 @@ function gameReducer(state: GameState, action: GameAction): GameState {
       };
     }
 
+    case 'CLEAR_CATEGORY':
+      return {
+        ...state,
+        selectedCategory: '',
+        availableWords: [],
+        currentWord: '',
+        correctWords: [],
+        skippedWords: [],
+        currentStreak: 0,
+        maxStreak: 0,
+        skipCount: 0,
+        status: 'idle',
+        remainingTime: state.totalTime,
+      };
+
     case 'TOGGLE_SOUND':
       return { ...state, soundEnabled: !state.soundEnabled };
 

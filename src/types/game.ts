@@ -178,6 +178,7 @@ export type GameAction =
   | { type: 'END_GAME' }
   | { type: 'RESET_GAME' }
   | { type: 'RESTART_GAME' }
+  | { type: 'CLEAR_CATEGORY' }
   | { type: 'TOGGLE_SOUND' };
 
 export interface WordsData {

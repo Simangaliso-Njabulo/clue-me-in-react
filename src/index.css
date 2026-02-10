@@ -129,12 +129,17 @@ html, body, #root {
   width: 100%;
 }
 
+html {
+  overscroll-behavior: none;
+}
+
 body {
   font-family: var(--font-body);
   background: linear-gradient(145deg, var(--color-bg-primary) 0%, #0e1322 50%, var(--color-bg-secondary) 100%);
   color: var(--color-text-primary);
   min-height: 100vh;
   overflow-x: hidden;
+  overscroll-behavior: none;
   -webkit-user-select: none;
   user-select: none;
 }
@@ -270,10 +275,12 @@ body {
    HomePage Layout
    ======================================== */
 .home-page {
-  min-height: 100vh;
+  height: 100vh;
   width: 100%;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+  overscroll-behavior: none;
 }
 
 .home-header {
@@ -341,40 +348,15 @@ body {
   }
 }
 
-.home-hero {
-  text-align: center;
-  width: 100%;
-  max-width: 36rem;
-}
-
-.home-hero-title {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 2.25rem;
-  color: var(--color-text-primary);
-  margin-bottom: 1rem;
-  line-height: 1.1;
-}
-
-@media (min-width: 640px) {
-  .home-hero-title { font-size: 3rem; }
-}
-@media (min-width: 768px) {
-  .home-hero-title { font-size: 3.75rem; }
-}
-
 .home-hero-subtitle {
   font-size: 1.125rem;
   color: var(--color-text-secondary);
+  text-align: center;
 }
 
 .home-mode-selector {
   width: 100%;
   max-width: 32rem;
-}
-
-.home-play-section {
-  text-align: center;
 }
 
 .home-play-btn {
@@ -386,7 +368,10 @@ body {
   border-radius: 1rem;
   border: none;
   cursor: pointer;
-  padding: 0.875rem 2.5rem;
+  padding: 0.875rem 0;
+  width: 11rem;
+  white-space: nowrap;
+  text-align: center;
   box-shadow: 0 4px 16px rgba(56, 189, 248, 0.25);
   transition: box-shadow 0.2s, background 0.2s;
 }
@@ -397,6 +382,7 @@ body {
 }
 
 .home-help-btn {
+  margin-top: -1.125rem;
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 1.25rem;
@@ -405,9 +391,12 @@ body {
   border: 2px solid var(--color-neon-blue);
   border-radius: 1rem;
   cursor: pointer;
-  padding: 0.875rem 2.5rem;
+  padding: 0.875rem 0;
+  width: 11rem;
+  white-space: nowrap;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
   box-shadow: 0 4px 16px rgba(56, 189, 248, 0.15);
   transition: box-shadow 0.2s, background 0.2s, color 0.2s;
@@ -463,8 +452,8 @@ body {
   gap: 0.75rem;
   padding: 0.5rem 0.75rem;
   border-radius: 0.75rem;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(26, 32, 51, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .home-step-icon {
@@ -511,18 +500,6 @@ body {
 
 .home-help-close:hover {
   background: rgba(56, 189, 248, 0.2);
-}
-
-.home-footer {
-  width: 100%;
-  flex-shrink: 0;
-  padding: 1.5rem 2rem;
-  text-align: center;
-}
-
-.home-footer-text {
-  color: var(--color-text-muted);
-  font-size: 0.75rem;
 }
 
 .home-modal-overlay {
@@ -683,24 +660,23 @@ body {
   width: 100%;
   padding: 0.625rem 0.25rem;
   border-radius: 0.875rem;
-  border: 1.5px solid rgba(255, 255, 255, 0.06);
-  background: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(12px);
+  border: 2px solid rgba(255, 255, 255, 0.08);
+  background: rgba(26, 32, 51, 0.8);
+  box-shadow: none;
   cursor: pointer;
-  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
   gap: 0.125rem;
 }
 
-.pack-card:hover {
-  background: rgba(255, 255, 255, 0.07);
-  border-color: rgba(255, 255, 255, 0.12);
+.pack-card:hover:not(.pack-card--selected) {
+  background: rgba(30, 37, 58, 0.9);
+  border-color: rgba(255, 255, 255, 0.15);
 }
 
 .pack-card--selected {
   background: rgba(56, 189, 248, 0.1);
   border-color: rgba(56, 189, 248, 0.5);
-  border-width: 2px;
-  box-shadow: 0 0 16px rgba(56, 189, 248, 0.15);
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.2), 0 0 32px rgba(56, 189, 248, 0.08);
 }
 
 .pack-card-icon {
@@ -715,6 +691,10 @@ body {
   color: var(--color-text-primary);
   text-align: center;
   line-height: 1.2;
+}
+
+.pack-card--selected .pack-card-name {
+  color: var(--color-neon-blue);
 }
 
 .pack-card-desc {
@@ -767,22 +747,22 @@ body {
   text-align: center;
   padding: 1.25rem 0.75rem 1rem;
   border-radius: 1rem;
-  border: 1.5px solid rgba(255, 255, 255, 0.06);
-  background: rgba(255, 255, 255, 0.04);
+  border: 2px solid rgba(255, 255, 255, 0.08);
+  background: rgba(26, 32, 51, 0.8);
+  box-shadow: none;
   cursor: pointer;
-  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
   gap: 0.25rem;
 }
 
-.mode-card:hover {
-  background: rgba(255, 255, 255, 0.07);
-  border-color: rgba(255, 255, 255, 0.12);
+.mode-card:hover:not(.mode-card--selected) {
+  background: rgba(30, 37, 58, 0.9);
+  border-color: rgba(255, 255, 255, 0.15);
 }
 
 .mode-card--selected {
   background: rgba(56, 189, 248, 0.1);
   border-color: rgba(56, 189, 248, 0.5);
-  border-width: 2px;
   box-shadow: 0 0 16px rgba(56, 189, 248, 0.15);
 }
 
@@ -913,15 +893,15 @@ body {
   border-radius: 0.875rem;
   text-align: center;
   transition: all 0.2s;
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(26, 32, 51, 0.8);
   color: var(--color-text-primary);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   cursor: pointer;
 }
 
 .play-category-card:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.1);
+  background: rgba(30, 37, 58, 0.9);
+  border-color: rgba(255, 255, 255, 0.15);
 }
 
 .play-category-card--selected {
@@ -1303,10 +1283,10 @@ body {
 }
 
 .results-word-card {
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(26, 32, 51, 0.8);
   border-radius: 0.875rem;
   padding: 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .results-word-card-title {
@@ -1671,9 +1651,10 @@ body {
 
 /* Achievements Page */
 .achievements-page {
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .achievements-header {
